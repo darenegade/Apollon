@@ -16,14 +16,17 @@ var MenuList = React.createClass({
     render(){
         return (
             <div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-                <a className="list-group-item" onClick={this.handleClick} id="myplaylist">
-                    Meine Playlist
+                <a className="list-group-item" onClick={this.handleClick} id="">
+                    Search
                 </a>
-                <a className="list-group-item" onClick={this.handleClick}>
-                    XXXX
+                <a className="list-group-item" onClick={this.handleClick} id="playlist">
+                    Browse Playlist
                 </a>
-                <a className="list-group-item" onClick={this.handleClick}>
-                    XXXX
+                <a className="list-group-item" onClick={this.handleClick} id="wishlist">
+                    Wishlist
+                </a>
+                <a className="list-group-item" onClick={this.handleClick} id="current">
+                    Current
                 </a>
             </div>
         )

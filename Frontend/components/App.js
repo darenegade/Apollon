@@ -138,8 +138,11 @@ var App = React.createClass({
                         </div>
                     </header>
 
+                    {
+                        <Search onSearch={this.searchForAddress} />
+                    }
                     
-                    <Search onSearch={this.searchForAddress} />
+
                 </main>
             </div>
 
