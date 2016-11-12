@@ -4,6 +4,14 @@ var Search = require('./Search');
 var Map = require('./Map');
 var CurrentLocation = require('./CurrentLocation');
 var LocationList = require('./LocationList');
+var NavigationMenu = require('./NavigationMenu');
+var HeaderIcon = require('./HeaderIcon');
+
+const headerItemStyle = {
+    height: '100%',
+    marginTop: '5px',
+    fontSize: '40px'
+};
 
 
 var App = React.createClass({
@@ -133,14 +141,19 @@ var App = React.createClass({
 
 		return (
 
-			<div>
-				<h1 className="greentext">Apollon</h1>
+            <div className="container-fluid">
 
-				<Search onSearch={this.searchForAddress} />
+                    <header>
+                        <div className="col-xs-12 col-md-12 header-container">
+                            <HeaderIcon/>
+                            <div className="col-xs-8 col-md-8"><h1 className="heading-apollon" style={headerItemStyle}>Apollon</h1></div>
+                        </div>
+                    </header>
 
-				
 
-			</div>
+
+                <Search onSearch={this.searchForAddress} />
+            </div>
 
 		);
 	}

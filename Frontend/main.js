@@ -3,5 +3,5 @@ var App = require('./components/App');
 
 React.render(
   <App />,
-  document.getElementById('main')
+  document.getElementById('panel')
 );
