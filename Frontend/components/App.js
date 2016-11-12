@@ -4,7 +4,7 @@ var Search = require('./Search');
 var Map = require('./Map');
 var CurrentLocation = require('./CurrentLocation');
 var LocationList = require('./LocationList');
-var NavigationMenu = require('./NavigationMenu');
+var MenuList = require('./MenuList');
 var HeaderIcon = require('./HeaderIcon');
 
 const headerItemStyle = {
@@ -18,24 +18,9 @@ var App = React.createClass({
 
 	getInitialState(){
 
-		// Extract the favorite locations from local storage
-
-		var favorites = [];
-
-		if(localStorage.favorites){
-			favorites = JSON.parse(localStorage.favorites);
-		}
-
-		// Nobody would get mad if we center it on Paris by default
-
 		return {
-			favorites: favorites,
-			currentAddress: 'Paris, France',
-			mapCoordinates: {
-				lat: 48.856614,
-				lng: 2.3522219
-			}
-		};
+            currentview: "index"
+        }
 	},
 
 	toggleFavorite(address){
@@ -140,8 +125,11 @@ var App = React.createClass({
 	render(){
 
 		return (
+		    <div>
 
-            <div className="container-fluid">
+                <MenuList/>
+
+                <main id="panel">
 
                     <header>
                         <div className="col-xs-12 col-md-12 header-container">
@@ -150,10 +138,12 @@ var App = React.createClass({
                         </div>
                     </header>
 
-
-
-                <Search onSearch={this.searchForAddress} />
+                    
+                    <Search onSearch={this.searchForAddress} />
+                </main>
             </div>
+
+
 
 		);
 	}

@@ -10,19 +10,9 @@ const headerIconStyle = {
 
 var HeaderIcon = React.createClass({
 
-    getInitialState: function(){
-        return ({
-            toggleOn: false
-        });
-    },
-
-
     handleToggle: function(evt){
         evt.preventDefault();
-        console.log('The link was clicked.');
         slideout.toggle();
-        //var nextState = !this.state.toggleOn;
-        //this.setState({toggleOn: nextState});
     },
 
     render(){

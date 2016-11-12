@@ -10,6 +10,7 @@ body {
 }
 
 #panel {
+	position: fixed;
 	padding:0;
 	margin:0;
 	background-color: rgb(237,240,241);
