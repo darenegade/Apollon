@@ -62,7 +62,7 @@ public class PlaylistQueue extends Thread {
 
   private synchronized Track getNextTrack() {
 
-    return tracks.entrySet()
+    Track nextTrack = tracks.entrySet()
         .stream()
         .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
         .map(e -> e.getValue().getTrack())
@@ -70,11 +70,15 @@ public class PlaylistQueue extends Thread {
           List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
           return tracks.get(random.nextInt(tracks.size()));
         });
+
+    tracks.remove(nextTrack.getId());
+    return nextTrack;
   }
 
   @Override
   public void run() {
     while (true) {
+
 
       player.playTrack(getNextTrack());
 
