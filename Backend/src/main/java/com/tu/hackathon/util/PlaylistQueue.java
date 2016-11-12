@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -33,9 +33,10 @@ public class PlaylistQueue extends Thread {
   @Autowired
   TrackRepo trackRepo;
 
-  List<Track> nextTracks = new ArrayList<>();
-  Player player;
-  ThreadLocalRandom random = ThreadLocalRandom.current();
+  private Map<Track,TrackVote> tracks = new HashMap<>();
+
+  private Player player;
+  private ThreadLocalRandom random = ThreadLocalRandom.current();
 
   @PostConstruct
   public void init(){
@@ -43,22 +44,30 @@ public class PlaylistQueue extends Thread {
   }
 
 
-  public synchronized void queueOnPlaylist(Track track) {
-    if (nextTracks.contains(track)) {
-      if (nextTracks.indexOf(track) > 0)
-        Collections.swap(nextTracks, nextTracks.indexOf(track), nextTracks.indexOf(track) - 1);
+  public synchronized void queueOnPlaylist(String id, Track track, boolean upVote) {
+
+    if (tracks.containsKey(track)) {
+      if (upVote){
+        tracks.get(track).addUp(id);
+      }else {
+        tracks.get(track).addDown(id);
+      }
+
     } else {
-      nextTracks.add(track);
+      tracks.put(track, new TrackVote().addUp(id));
     }
   }
 
   private synchronized Track getNextTrack() {
-    if (nextTracks.isEmpty()){
-      List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
-      return tracks.get(random.nextInt(tracks.size()));
-    }
 
-    return nextTracks.remove(0);
+    return tracks.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
+        .map(Map.Entry::getKey)
+        .findFirst().orElseGet(() -> {
+          List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
+          return tracks.get(random.nextInt(tracks.size()));
+        });
   }
 
   @Override
@@ -66,7 +75,6 @@ public class PlaylistQueue extends Thread {
     while (true) {
 
       player.playTrack(getNextTrack());
-
 
     }
   }

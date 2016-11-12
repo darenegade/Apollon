@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Organization: HM FK07.
  * Project: Apollon_Backend, com.tu.hackathon
@@ -37,8 +39,22 @@ public class PlaylistController {
     return trackRepo.findAll();
   }
 
-  @RequestMapping(method = RequestMethod.POST)
-  public void wishTrack(@RequestBody String trackId){
+  @RequestMapping(path = "/voteUp",method = RequestMethod.POST)
+  public void voteUp(@RequestBody String trackId, HttpServletRequest request){
+    vote(trackId, request, true);
+  }
+
+  @RequestMapping(path = "/voteDown",method = RequestMethod.POST)
+  public void voteDown(@RequestBody String trackId, HttpServletRequest request){
+    vote(trackId, request, false);
+  }
+
+  private void vote(String trackId, HttpServletRequest request, boolean upVote){
+    String ipAddress = request.getHeader("X-FORWARDED-FOR");
+    if (ipAddress == null) {
+      ipAddress = request.getRemoteAddr();
+    }
+
 
     if(trackId == null)
       throw new IllegalArgumentException("No Track Provided");
@@ -46,8 +62,7 @@ public class PlaylistController {
     Track track = trackRepo.findByName(trackId);
 
     if(track != null)
-      player.queueOnPlaylist(track);
-
+      player.queueOnPlaylist(ipAddress, track, upVote);
   }
 
 }
