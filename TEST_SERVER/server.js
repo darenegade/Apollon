@@ -31,6 +31,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('../Frontend'))
 
+app.get("/", function(req, res) {
+	res.redirect(301, "index.html");
+});
+
 /*
 // Additional middleware which will set headers that we need on each request.
 app.use(function(req, res, next) {
@@ -46,7 +50,6 @@ app.use(function(req, res, next) {
 
 var aSong={id:1232141,name:'supersong',artistName:'Joe Cool',albumName:'blablabla'};
 app.get('/current', function (req, res) {
-	console.log('allsongs called');
 	res.send(aSong);
 })
 
