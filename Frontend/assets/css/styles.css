@@ -1,3 +1,8 @@
+
+body {
+    background-color: rgb(237,240,241);
+}
+
 .container {
 	max-width: 980px;
 	text-align: center;
@@ -112,4 +117,8 @@ a.list-group-item span.createdAt {
 	display: block;
 	color: #969FA8;
 	z-index: -1;
+}
+
+.greentext{
+	color:rgb(11,166,116);
 }

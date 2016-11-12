@@ -1,17 +1,9 @@
 # Apollon
 
 ## Frontend
-__Note for developing on UNIX system__
+How to deploy the project on your local maschine: 
 
-Please remove the the statement on the build command in the 
-
-```
-set NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > compiled.min.js
-```
-with the statement 
-
-```
-NODE_ENV=production browserify -t [ reactify --es6 ] main.js | uglifyjs > compiled.min.js
-```
-to build the project. 
+- run the command `npm install` 
+- For building frontend-project under Windows use the command `nmp run build_win`
+- Under UNIX us the command `nmp run build_unix`
 

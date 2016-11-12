@@ -134,18 +134,11 @@ var App = React.createClass({
 		return (
 
 			<div>
-				<h1>Apollon</h1>
+				<h1 className="greentext">Apollon</h1>
 
 				<Search onSearch={this.searchForAddress} />
 
-				<Map lat={this.state.mapCoordinates.lat} lng={this.state.mapCoordinates.lng} />
-
-				<CurrentLocation address={this.state.currentAddress} 
-					favorite={this.isAddressInFavorites(this.state.currentAddress)} 
-					onFavoriteToggle={this.toggleFavorite} />
-
-				<LocationList locations={this.state.favorites} activeLocationAddress={this.state.currentAddress} 
-					onClick={this.searchForAddress} />
+				
 
 			</div>
 

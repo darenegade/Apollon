@@ -18,4 +18,5 @@ hs_err_pid*
 /Music
 
 #npm
-node_modules/
+Frontend/node_modules/
+Frontend/compiled.js
