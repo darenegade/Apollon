@@ -28,8 +28,16 @@ else{
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(function(req, res, next){
+	console.log(Date.now(), req.url);
+	next();
+});
 
 app.use(express.static('../Frontend'))
+
+app.get("/", function(req, res) {
+	res.redirect(301, "/index.html");
+});
 
 /*
 // Additional middleware which will set headers that we need on each request.
@@ -46,7 +54,6 @@ app.use(function(req, res, next) {
 
 var aSong={id:1232141,name:'supersong',artistName:'Joe Cool',albumName:'blablabla'};
 app.get('/current', function (req, res) {
-	console.log('allsongs called');
 	res.send(aSong);
 })
 
@@ -62,7 +69,6 @@ var dummySongList=[
 	{id:1232150,name:'supersong8',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922646/256x256'}
 ];
 app.get('/playlist', function (req, res) {
-	console.log('allsongs called');
 	res.send(dummySongList);
 })
 
