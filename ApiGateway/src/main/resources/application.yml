@@ -1,5 +1,5 @@
 info:
-component: Zuul Server
+ component: Zuul Server
 
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000000
 
@@ -8,23 +8,27 @@ zuul.host.connect-timeout-millis: 10000000
 zuul.host.socket-timeout-millis: 10000000
 
 endpoints:
-restart:
-enabled: true
-shutdown:
-enabled: true
-health:
-sensitive: false
+ restart:
+  enabled: true
+ shutdown:
+  enabled: true
+ health:
+  sensitive: false
 
 zuul:
-routes:
-gui:
-path: /**
-url: http://localhost:8080/
-backend:
-path: /api/**
-url: http://localhost:8081/
+  routes:
+    gui:
+      path: /**
+      url: http://localhost:8080/
+    backend:
+      path: /api/**
+      sensitiveHeaders: Cookie,Set-Cookie
+      url: http://localhost:8081/
+    juke:
+      path: /juke/**
+      url: http://msh-360.catalog.api.247e.com
 
 logging:
-level:
-ROOT: INFO
+  level:
+    ROOT: INFO
 org.springframework.web: INFO

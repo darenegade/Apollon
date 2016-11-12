@@ -40,12 +40,12 @@ public class PlaylistController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public void wishTrack(@RequestBody String trackName){
+  public void wishTrack(@RequestBody String trackId){
 
-    if(trackName == null)
+    if(trackId == null)
       throw new IllegalArgumentException("No Track Provided");
 
-    Track track = trackRepo.findByName(trackName);
+    Track track = trackRepo.findByName(trackId);
 
     if(track != null)
       player.queueOnPlaylist(track);

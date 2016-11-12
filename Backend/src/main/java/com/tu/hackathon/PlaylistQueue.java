@@ -37,7 +37,7 @@ public class PlaylistQueue extends Thread {
   private synchronized Track getNextTrack() {
     if (nextTracks.isEmpty())
       return Track.builder()
-          .name("Default Track")
+          .id("3922750")
           .build();
 
     return nextTracks.remove(0);

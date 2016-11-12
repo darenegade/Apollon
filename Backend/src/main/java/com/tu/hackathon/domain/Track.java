@@ -28,5 +28,6 @@ public class Track {
   String id;
 
   String name, artistName, albumName;
+  String imageUrl;
 
 }
