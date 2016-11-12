@@ -30,7 +30,7 @@ public class FileSystemPlayer implements Player{
       clip.start();
 
       System.out.println("\n\nStarted");
-      Thread.currentThread().sleep(clip.getMicrosecondLength()/1000);
+      Thread.sleep(clip.getMicrosecondLength()/1000);
 
     }catch (Exception e){
       e.printStackTrace();
