@@ -123,3 +123,15 @@ a.list-group-item span.createdAt {
 .greentext{
 	color:rgb(11,166,116);
 }
+.solientry{
+	display: block;
+	background-color: #969FA8;
+}
+.smalltext{
+	font-size:0.7em;
+}
+
+.center {
+    margin: auto;
+    
+}

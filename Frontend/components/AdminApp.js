@@ -2,7 +2,7 @@ var React = require('react');
 
 var Search = require('./Search');
 var Login = require('./Login');
-var Playlist = require('./LocationList');
+var Playlist = require('./Songlist');
 var Map = require('./Map');
 var CurrentLocation = require('./CurrentLocation');
 
@@ -153,7 +153,7 @@ var App = React.createClass({
 			<div>
 				<h1 className="greentext">Apollon</h1>
 				{ this.state.loggedIn
-				? <Playlist locations={[]} />
+				? <Playlist songs={[]} />
 				: this.state.credentials
 				  ? "loading…"
 				  : <Login onComplete={this.setCredentials} message="Use the key that the server generated for you" /> }
