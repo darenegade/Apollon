@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify -v -d -t [ reactify --es6 ] main.js -o compiled.js",
-    "build_win": "build.bat",
-    "build_unix": "NODE_ENV=production browserify -t [ reactify --es6 ] main.js  > compiled.js"
+    "build_win": "set NODE_ENV=production && browserify -t [ reactify --es6 ] main.js > compiled.js && browserify -t [ reactify --es6 ] main_admin.js > admin.js",
+    "build_unix": "NODE_ENV=production browserify -t [ reactify --es6 ] main.js > compiled.js && NODE_ENV=production browserify -t [ reactify --es6 ] main:adming.js > admin.js"
   },
   "repository" :
   { "type" : "git",
