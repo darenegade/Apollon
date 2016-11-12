@@ -15,7 +15,7 @@ public class TerminalPlayer implements Player{
   @Override
   public void playTrack(Track track) {
 
-
+    
 
   }
 }
