@@ -47,7 +47,7 @@ var App = React.createClass({
 							case "browse":
 							case "wishlist":
 							default:
-								return <SongList />;
+								return <SongList songs={[]} />;
 						}
 					})()}
                 </main>

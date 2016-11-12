@@ -46,7 +46,8 @@ h1 {
 	cursor: pointer;
 }
 
-.glyphicon-search{
+.glyphicon-search,
+.glyphicon-arrow-right {
 	position: relative;
 	right: 30px;
 }
@@ -144,4 +145,16 @@ a.list-group-item span.createdAt {
 	height: 50px;
 	width: 100%;
 	margin-bottom: 20px;
+}
+.solientry{
+	display: block;
+	background-color: #969FA8;
+}
+.smalltext{
+	font-size:0.7em;
+}
+
+.center {
+    margin: auto;
+    
 }
