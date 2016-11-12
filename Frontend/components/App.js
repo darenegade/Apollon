@@ -3,12 +3,12 @@ var React = require('react');
 var Search = require('./Search');
 var Map = require('./Map');
 var CurrentLocation = require('./CurrentLocation');
-var LocationList = require('./LocationList');
+var SongList = require('./SongList');
 
 
 var App = React.createClass({
 
-	getInitialState(){
+	/*getInitialState(){
 
 		// Extract the favorite locations from local storage
 
@@ -18,17 +18,8 @@ var App = React.createClass({
 			favorites = JSON.parse(localStorage.favorites);
 		}
 
-		// Nobody would get mad if we center it on Paris by default
 
-		return {
-			favorites: favorites,
-			currentAddress: 'Paris, France',
-			mapCoordinates: {
-				lat: 48.856614,
-				lng: 2.3522219
-			}
-		};
-	},
+	},*/
 
 	toggleFavorite(address){
 
@@ -101,33 +92,7 @@ var App = React.createClass({
 		return false;
 	},
 
-	searchForAddress(address){
-		
-		var self = this;
 
-		// We will use GMaps' geocode functionality,
-		// which is built on top of the Google Maps API
-
-		GMaps.geocode({
-			address: address,
-			callback: function(results, status) {
-
-				if (status !== 'OK') return;
-
-				var latlng = results[0].geometry.location;
-
-				self.setState({
-					currentAddress: results[0].formatted_address,
-					mapCoordinates: {
-						lat: latlng.lat(),
-						lng: latlng.lng()
-					}
-				});
-
-			}
-		});
-
-	},
 
 	render(){
 
@@ -138,7 +103,7 @@ var App = React.createClass({
 
 				<Search onSearch={this.searchForAddress} />
 
-				
+				<SongList />
 
 			</div>
 
