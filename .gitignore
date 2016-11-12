@@ -13,3 +13,6 @@ hs_err_pid*
 
 #IDE 
 *.idea
+
+#npm
+/node_modules
