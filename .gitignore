@@ -13,3 +13,7 @@ hs_err_pid*
 
 #IDE 
 *.idea
+
+#npm
+Frontend/node_modules/
+Frontend/compiled.js
