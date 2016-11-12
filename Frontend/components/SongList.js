@@ -11,7 +11,6 @@ var SongList = React.createClass({
 			songs: this.props.songs
 		};
 	},
-	
 
 	render(){
 		return (

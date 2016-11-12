@@ -127,11 +127,23 @@ a.list-group-item span.createdAt {
 	display: block;
 	background-color: #969FA8;
 }
+
+.artist-name {
+	font-family: monospace;
+	font-size: 1.4em;
+	word-wrap: break-word;
+	text-align: left;
+}
+.song-name {
+	font-size: 1.2em;
+	word-wrap: break-word;
+	text-align: left;
+}
 .smalltext{
 	font-size:0.7em;
 }
 
 .center {
     margin: auto;
-    
 }
+
