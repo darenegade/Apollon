@@ -15,4 +15,5 @@ hs_err_pid*
 *.idea
 
 #npm
-node_modules/
+Frontend/node_modules/
+Frontend/compiled.js
