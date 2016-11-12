@@ -21,6 +21,11 @@ var App = React.createClass({
 	},
 
 	render(){
+        const headerStyle = {
+            position: 'fixed',
+            width: '100%',
+            backgroundColor: 'red'
+        };
 		const headerItemStyle = {
 			height: '100%',
 			marginTop: '5px',
@@ -32,7 +37,7 @@ var App = React.createClass({
 					<NavigationMenu handleSelection={this.setView} />
 				</nav>
                 <main id="panel">
-                    <header>
+                    <header style={headerStyle}>
                         <div className="col-xs-12 col-md-12 header-container">
                             <HeaderIcon/>
                             <div className="col-xs-8 col-md-8"><h1 className="heading-apollon" style={headerItemStyle}>Apollon</h1></div>
