@@ -1,5 +1,7 @@
 package com.tu.hackathon;
 
+import com.tu.hackathon.domain.Track;
+import com.tu.hackathon.repositories.TrackRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +26,10 @@ import java.util.List;
 public class PlaylistController {
 
   @Autowired
-  AudioPlayer player;
+  PlaylistQueue player;
+
+  @Autowired
+  TrackRepo trackRepo;
 
 
   @RequestMapping(method = RequestMethod.GET)
@@ -35,12 +40,15 @@ public class PlaylistController {
   }
 
   @RequestMapping(method = RequestMethod.POST)
-  public void wishTrack(@RequestBody String track){
+  public void wishTrack(@RequestBody String trackName){
 
-    if(track == null)
+    if(trackName == null)
       throw new IllegalArgumentException("No Track Provided");
 
-    player.queueOnPlaylist(track);
+    Track track = trackRepo.findByName(trackName);
+
+    if(track != null)
+      player.queueOnPlaylist(track);
 
   }
 

@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ApollonBackendApplication implements CommandLineRunner {
 
 	@Autowired
-	AudioPlayer player;
+  PlaylistQueue player;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApollonBackendApplication.class, args);

@@ -1,5 +1,8 @@
 package com.tu.hackathon;
 
+import com.tu.hackathon.audioplayer.Player;
+import com.tu.hackathon.audioplayer.TerminalPlayer;
+import com.tu.hackathon.domain.Track;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,12 +19,13 @@ import java.util.List;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 @Service
-public class AudioPlayer extends Thread {
+public class PlaylistQueue extends Thread {
 
-  List<String> nextTracks = new ArrayList<>();
+  List<Track> nextTracks = new ArrayList<>();
+  Player player = new TerminalPlayer();
 
 
-  public synchronized void queueOnPlaylist(String track) {
+  public synchronized void queueOnPlaylist(Track track) {
     if (nextTracks.contains(track)) {
       if (nextTracks.indexOf(track) > 0)
         Collections.swap(nextTracks, nextTracks.indexOf(track), nextTracks.indexOf(track) - 1);
@@ -30,9 +34,11 @@ public class AudioPlayer extends Thread {
     }
   }
 
-  private synchronized String getNextTrack() {
+  private synchronized Track getNextTrack() {
     if (nextTracks.isEmpty())
-      return "Default Track";
+      return Track.builder()
+          .name("Default Track")
+          .build();
 
     return nextTracks.remove(0);
   }
@@ -41,14 +47,8 @@ public class AudioPlayer extends Thread {
   public void run() {
     while (true) {
 
-      System.out.println("Test");
+      player.playTrack(getNextTrack());
 
-      //Mock Playtime
-      try {
-        sleep(5000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
 
     }
   }
