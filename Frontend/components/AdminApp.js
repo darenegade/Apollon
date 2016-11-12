@@ -1,36 +1,55 @@
 var React = require('react');
 
 var Search = require('./Search');
+var Login = require('./Login');
+var Playlist = require('./LocationList');
 var Map = require('./Map');
 var CurrentLocation = require('./CurrentLocation');
-var LocationList = require('./LocationList');
 
 
 var App = React.createClass({
 
-	getInitialState(){
-
-		// Extract the favorite locations from local storage
-
-		var favorites = [];
-
-		if(localStorage.favorites){
-			favorites = JSON.parse(localStorage.favorites);
-		}
-
-		// Nobody would get mad if we center it on Paris by default
-
+	getInitialState() {
 		return {
-			favorites: favorites,
-			currentAddress: 'Paris, France',
-			mapCoordinates: {
-				lat: 48.856614,
-				lng: 2.3522219
-			}
-		};
+			credentials: localStorage.credentials,
+			isLoggedIn: false
+		}
 	},
 
-	toggleFavorite(address){
+	componentDidMount() {
+		if (this.state.credentials && !this.state.isLoggedIn)
+			this.loadPlaylist();
+    },
+
+	setCredentials(code) {
+		this.setState({
+			credentials: code
+		});
+		localStorage.credentials = code;
+		this.loadPlaylist();
+	},
+
+	loadPlaylist() {
+		this.request("playlist.json").then(console.log, function(e) {
+			console.log("test");
+			console.error(e);
+		});
+	},
+
+	request(url) {
+		var headers = new Headers();
+		headers.append("Authorization", "Basic " + btoa("admin:"+this.state.credentials));
+		return fetch(url, {
+			headers: headers
+		})
+		.then(function(response) {
+			if (response.ok)
+				return response.text();
+			throw new Error(response.status);
+		});
+	},
+
+	toggleFavorite(address) {
 
 		if(this.isAddressInFavorites(address)){
 			this.removeFromFavorites(address);
@@ -74,7 +93,7 @@ var App = React.createClass({
 		// If it was found, remove it from the favorites array
 
 		if(index !== -1){
-			
+
 			favorites.splice(index, 1);
 
 			this.setState({
@@ -102,7 +121,7 @@ var App = React.createClass({
 	},
 
 	searchForAddress(address){
-		
+
 		var self = this;
 
 		// We will use GMaps' geocode functionality,
@@ -129,22 +148,18 @@ var App = React.createClass({
 
 	},
 
-	render(){
-
+	render() {
 		return (
-
 			<div>
 				<h1 className="greentext">Apollon</h1>
-
-				<Search onSearch={this.searchForAddress} />
-
-				
-
+				{ this.state.loggedIn
+				? <Playlist locations={[]} />
+				: this.state.credentials
+				  ? "loading…"
+				  : <Login onComplete={this.setCredentials} message="Use the key that the server generated for you" /> }
 			</div>
-
 		);
 	}
-
 });
 
 module.exports = App;

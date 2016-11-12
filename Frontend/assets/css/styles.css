@@ -31,7 +31,8 @@ h1 {
 	cursor: pointer;
 }
 
-.glyphicon-search{
+.glyphicon-search,
+.glyphicon-arrow-right {
 	position: relative;
 	right: 30px;
 }
