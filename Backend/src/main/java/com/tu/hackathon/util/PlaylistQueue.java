@@ -1,10 +1,12 @@
-package com.tu.hackathon;
+package com.tu.hackathon.util;
 
-import com.tu.hackathon.audioplayer.Player;
 import com.tu.hackathon.audioplayer.FileSystemPlayer;
+import com.tu.hackathon.audioplayer.Player;
 import com.tu.hackathon.domain.Track;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +23,16 @@ import java.util.List;
 @Service
 public class PlaylistQueue extends Thread {
 
+  @Value("${music.path}")
+  String basePath;
+
   List<Track> nextTracks = new ArrayList<>();
-  Player player = new FileSystemPlayer();
+  Player player;
+
+  @PostConstruct
+  public void init(){
+    player = new FileSystemPlayer(basePath);
+  }
 
 
   public synchronized void queueOnPlaylist(Track track) {

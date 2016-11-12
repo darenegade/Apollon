@@ -1,16 +1,14 @@
-package com.tu.hackathon;
+package com.tu.hackathon.controller;
 
 import com.tu.hackathon.domain.Track;
 import com.tu.hackathon.repositories.TrackRepo;
+import com.tu.hackathon.util.PlaylistQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Organization: HM FK07.
@@ -34,9 +32,9 @@ public class PlaylistController {
 
   @RequestMapping(method = RequestMethod.GET)
   @Cacheable("playlist")
-  public List<String> getPlaylist(){
+  public Iterable<Track> getPlaylist(){
 
-    return Collections.emptyList();
+    return trackRepo.findAll();
   }
 
   @RequestMapping(method = RequestMethod.POST)

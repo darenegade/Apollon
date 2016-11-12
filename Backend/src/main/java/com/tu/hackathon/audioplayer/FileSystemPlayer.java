@@ -17,13 +17,18 @@ import java.io.File;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 public class FileSystemPlayer implements Player{
+
+  String basePath;
+
+  public FileSystemPlayer(String basePath) {
+    this.basePath = basePath;
+  }
+
   @Override
   public void playTrack(Track track) {
 
-    // /Users/darenegade/Music/iTunes/Test/music.mp3
-
     try {
-      File f = new File("./../Music/" + track.getId()+ ".wav");
+      File f = new File(basePath + track.getId()+ ".wav");
       AudioInputStream ain = AudioSystem.getAudioInputStream(f);
       Clip clip = AudioSystem.getClip();
       clip.open(ain);

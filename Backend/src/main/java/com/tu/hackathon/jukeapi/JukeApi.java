@@ -2,6 +2,7 @@ package com.tu.hackathon.jukeapi;
 
 import com.tu.hackathon.domain.Track;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-@FeignClient("http://msh-360.catalog.api.247e.com")
+@FeignClient(name = "juke", url = "http://msh-360.catalog.api.247e.com")
 public interface JukeApi {
 
   @RequestMapping(method = RequestMethod.GET, value = "/tracks/{trackId}", consumes = "application/json")
-  Track getTrack(@PathVariable("trackId") String trackId);
+  Resource<Track> getTrack(@PathVariable("trackId") String trackId);
 }
