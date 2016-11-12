@@ -1,9 +1,8 @@
 var React = require('react');
 
 var Search = require('./Search');
-var Map = require('./Map');
-var CurrentLocation = require('./CurrentLocation');
 var SongList = require('./SongList');
+var CurrentSong=require('./CurrentSong');
 
 
 var App = React.createClass({
@@ -20,6 +19,13 @@ var App = React.createClass({
 
 
 	},*/
+
+	currentSong:{
+	 name:'Biene Maja',
+	 artistName:'Karel Got',
+	 albumName:'Bla'
+
+	 },
 
 	toggleFavorite(address){
 
@@ -100,6 +106,8 @@ var App = React.createClass({
 
 			<div>
 				<h1 className="greentext">Apollon</h1>
+
+				<CurrentSong song={this.currentSong}/>
 
 				<Search onSearch={this.searchForAddress} />
 
