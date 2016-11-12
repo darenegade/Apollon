@@ -1,8 +1,11 @@
 package com.tu.hackathon.util;
 
+import com.google.common.collect.Lists;
 import com.tu.hackathon.audioplayer.FileSystemPlayer;
 import com.tu.hackathon.audioplayer.Player;
 import com.tu.hackathon.domain.Track;
+import com.tu.hackathon.repositories.TrackRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Organization: HM FK07.
@@ -26,8 +30,12 @@ public class PlaylistQueue extends Thread {
   @Value("${music.path}")
   String basePath;
 
+  @Autowired
+  TrackRepo trackRepo;
+
   List<Track> nextTracks = new ArrayList<>();
   Player player;
+  ThreadLocalRandom random = ThreadLocalRandom.current();
 
   @PostConstruct
   public void init(){
@@ -45,10 +53,10 @@ public class PlaylistQueue extends Thread {
   }
 
   private synchronized Track getNextTrack() {
-    if (nextTracks.isEmpty())
-      return Track.builder()
-          .id("3922750")
-          .build();
+    if (nextTracks.isEmpty()){
+      List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
+      return tracks.get(random.nextInt(tracks.size()));
+    }
 
     return nextTracks.remove(0);
   }
