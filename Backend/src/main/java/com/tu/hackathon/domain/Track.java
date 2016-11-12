@@ -25,7 +25,7 @@ import javax.persistence.Id;
 public class Track {
 
   @Id
-  String isrc;
+  String id;
 
   String name, artistName, albumName;
 

@@ -1,7 +1,7 @@
 package com.tu.hackathon;
 
 import com.tu.hackathon.audioplayer.Player;
-import com.tu.hackathon.audioplayer.TerminalPlayer;
+import com.tu.hackathon.audioplayer.FileSystemPlayer;
 import com.tu.hackathon.domain.Track;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class PlaylistQueue extends Thread {
 
   List<Track> nextTracks = new ArrayList<>();
-  Player player = new TerminalPlayer();
+  Player player = new FileSystemPlayer();
 
 
   public synchronized void queueOnPlaylist(Track track) {

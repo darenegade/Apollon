@@ -25,7 +25,7 @@ import javax.persistence.Id;
 public class Album {
 
   @Id
-  String upc;
+  String id;
 
   String name, artists;
 }
