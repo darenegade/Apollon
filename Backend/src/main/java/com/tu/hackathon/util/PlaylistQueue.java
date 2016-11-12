@@ -5,6 +5,7 @@ import com.tu.hackathon.audioplayer.FileSystemPlayer;
 import com.tu.hackathon.audioplayer.Player;
 import com.tu.hackathon.domain.Track;
 import com.tu.hackathon.repositories.TrackRepo;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class PlaylistQueue extends Thread {
   @Autowired
   TrackRepo trackRepo;
 
-  private Map<Track,TrackVote> tracks = new HashMap<>();
+  @Getter
+  private Map<String,TrackVote> tracks = new HashMap<>();
 
   private Player player;
   private ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -46,15 +48,15 @@ public class PlaylistQueue extends Thread {
 
   public synchronized void queueOnPlaylist(String id, Track track, boolean upVote) {
 
-    if (tracks.containsKey(track)) {
+    if (tracks.containsKey(track.getId())) {
       if (upVote){
-        tracks.get(track).addUp(id);
+        tracks.get(track.getId()).addUp(id);
       }else {
-        tracks.get(track).addDown(id);
+        tracks.get(track.getId()).addDown(id);
       }
 
-    } else {
-      tracks.put(track, new TrackVote().addUp(id));
+    } else if (upVote) {
+      tracks.put(track.getId(), new TrackVote(track).addUp(id));
     }
   }
 
@@ -63,7 +65,7 @@ public class PlaylistQueue extends Thread {
     return tracks.entrySet()
         .stream()
         .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
-        .map(Map.Entry::getKey)
+        .map(e -> e.getValue().getTrack())
         .findFirst().orElseGet(() -> {
           List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
           return tracks.get(random.nextInt(tracks.size()));

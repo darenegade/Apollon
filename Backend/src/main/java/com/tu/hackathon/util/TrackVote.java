@@ -1,9 +1,7 @@
 package com.tu.hackathon.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.tu.hackathon.domain.Track;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +16,14 @@ import java.util.Set;
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class TrackVote implements Comparable<TrackVote>{
+  private Track track;
   private Set<String> upVotes = new HashSet<>();
   private Set<String> downVotes = new HashSet<>();
+
+  public TrackVote(Track track){
+    this.track = track;
+  }
 
   public TrackVote addUp(String id){
     upVotes.add(id);

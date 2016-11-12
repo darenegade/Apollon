@@ -3,6 +3,7 @@ package com.tu.hackathon.controller;
 import com.tu.hackathon.domain.Track;
 import com.tu.hackathon.repositories.TrackRepo;
 import com.tu.hackathon.util.PlaylistQueue;
+import com.tu.hackathon.util.TrackVote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Organization: HM FK07.
@@ -39,12 +41,18 @@ public class PlaylistController {
     return trackRepo.findAll();
   }
 
-  @RequestMapping(path = "/voteUp",method = RequestMethod.POST)
+  @RequestMapping(path = "/wishlist",method = RequestMethod.GET)
+  public Map<String,TrackVote> getWishList(){
+    return player.getTracks();
+  }
+
+
+  @RequestMapping(path = "/voteup",method = RequestMethod.POST)
   public void voteUp(@RequestBody String trackId, HttpServletRequest request){
     vote(trackId, request, true);
   }
 
-  @RequestMapping(path = "/voteDown",method = RequestMethod.POST)
+  @RequestMapping(path = "/votedown",method = RequestMethod.POST)
   public void voteDown(@RequestBody String trackId, HttpServletRequest request){
     vote(trackId, request, false);
   }
@@ -59,7 +67,7 @@ public class PlaylistController {
     if(trackId == null)
       throw new IllegalArgumentException("No Track Provided");
 
-    Track track = trackRepo.findByName(trackId);
+    Track track = trackRepo.findOne(trackId);
 
     if(track != null)
       player.queueOnPlaylist(ipAddress, track, upVote);
