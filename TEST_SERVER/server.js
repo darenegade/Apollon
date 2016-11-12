@@ -29,6 +29,9 @@ else{
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(express.static('../Frontend'))
+
+/*
 // Additional middleware which will set headers that we need on each request.
 app.use(function(req, res, next) {
     // Set permissive CORS header - this allows this server to be used only as
@@ -39,27 +42,25 @@ app.use(function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     next();
 });
+*/
 
 var aSong={id:1232141,name:'supersong',artistName:'Joe Cool',albumName:'blablabla'};
-
 app.get('/current', function (req, res) {
 	console.log('allsongs called');
 	res.send(aSong);
 })
 
 var dummySongList=[
-{id:1232141,name:'supersong',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232143,name:'supersong1',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232144,name:'supersong2',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232145,name:'supersong3',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922046/256x256'},
-{id:1232146,name:'supersong4',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232147,name:'supersong5',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232148,name:'supersong6',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232149,name:'supersong7',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
-{id:1232150,name:'supersong8',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922646/256x256'}
+	{id:1232141,name:'supersong',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232143,name:'supersong1',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232144,name:'supersong2',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232145,name:'supersong3',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922046/256x256'},
+	{id:1232146,name:'supersong4',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232147,name:'supersong5',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232148,name:'supersong6',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232149,name:'supersong7',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922746/256x256'},
+	{id:1232150,name:'supersong8',artistName:'Joe Cool',albumName:'blablabla',imageUrl:'https://artwork.cdn.247e.com/covers/3922646/256x256'}
 ];
-
-
 app.get('/playlist', function (req, res) {
 	console.log('allsongs called');
 	res.send(dummySongList);
