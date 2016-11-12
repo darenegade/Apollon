@@ -11,13 +11,19 @@ var SongList = React.createClass({
 			songs: this.props.songs
 		};
 	},
-	
 
 	render(){
+		const ScrollStyle = {
+			overflowY: 'scroll'
+		};
+
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-				{ this.state.songs.map(songObj => <SongListEntry song={songObj}/>) }
+				<div style={ScrollStyle}>
+					{ this.state.songs.map(songObj => <SongListEntry song={songObj}/>) }
+				</div>
 			</div>
+
 		)
 	}
 

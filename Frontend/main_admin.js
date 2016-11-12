@@ -1,4 +1,4 @@
-var Creed = require('creed');
+window.Creed = require('creed');
 Creed.shim(); // global Promise polyfill
 
 require('whatwg-fetch'); // global fetch polyfill
