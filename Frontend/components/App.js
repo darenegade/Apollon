@@ -134,7 +134,7 @@ var App = React.createClass({
 		return (
 
 			<div>
-				<h1>Your Google Maps Locations</h1>
+				<h1>Apollon</h1>
 
 				<Search onSearch={this.searchForAddress} />
 
