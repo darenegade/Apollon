@@ -5,21 +5,18 @@ var React = require('react');
 
 var NavigationMenu = React.createClass({
 
-    handleClick(element){
-        switch (element.id) {
-            case "myplaylist":
-        }
-        console.log("LALAL");
+    handleClick(e){
+        this.props.handleSelection(e.currentTarget.id)
     },
 
     render(){
         return (
             <div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-                <a className="list-group-item" onClick={this.handleClick} id="">
-                    Search Playlist
+                <a className="list-group-item" onClick={this.handleClick} id="search">
+                    Search
                 </a>
-                <a className="list-group-item" onClick={this.handleClick} id="playlist">
-                    Browse Playlist
+                <a className="list-group-item" onClick={this.handleClick} id="browse">
+                    Browse
                 </a>
                 <a className="list-group-item" onClick={this.handleClick} id="wishlist">
                     Wishlist
@@ -29,7 +26,6 @@ var NavigationMenu = React.createClass({
                 </a>
             </div>
         )
-
     }
 
 });

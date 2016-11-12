@@ -3,13 +3,21 @@ var React = require('react');
 var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
 var HeaderIcon = require('./HeaderIcon');
+var CurrentSong = require('./CurrentSong');
+var SongList = require('./SongList');
 
 var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentview: "index"
+            currentView: "whishlist"
         }
+	},
+
+	setView(view) {
+		this.setState({
+			currentView: view
+		});
 	},
 
 	render(){
@@ -21,7 +29,7 @@ var App = React.createClass({
 		return (
 		    <div>
                 <nav id="menu">
-					<NavigationMenu />
+					<NavigationMenu handleSelection={this.setView} />
 				</nav>
                 <main id="panel">
                     <header>
@@ -30,9 +38,18 @@ var App = React.createClass({
                             <div className="col-xs-8 col-md-8"><h1 className="heading-apollon" style={headerItemStyle}>Apollon</h1></div>
                         </div>
                     </header>
-                    {
-                        <Search onSearch={this.searchForAddress} />
-                    }
+                    {(()=>{
+						switch(this.state.currentView) {
+							case "search":
+								return <Search onSearch={this.searchForAddress} />;
+							case "current":
+								return <CurrentSong />;
+							case "browse":
+							case "wishlist":
+							default:
+								return <SongList />;
+						}
+					})()}
                 </main>
             </div>
 		);
