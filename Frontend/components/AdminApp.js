@@ -9,7 +9,9 @@ var App = React.createClass({
 	getInitialState() {
 		return {
 			credentials: localStorage.credentials,
-			isLoggedIn: false
+			isLoggedIn: false,
+			playlist: [],
+			loginmessage: "Use the key that the server generated for you"
 		}
 	},
 
@@ -29,29 +31,32 @@ var App = React.createClass({
 	},
 
 	loadPlaylist() {
-		this.request("http://localhost:3000/playlist").then(result => {
+		this.request("/playlist").then(result => {
 			this.setState({
 				isLoggedIn: true,
 				playlist: result
 			});
-		}, function(e) {
-			console.log("test");
-			console.error(e);
+		}, err => {
+			console.error(err);
+			this.setState({
+				credentials: null,
+				loginmessage: err.message
+			});
 		});
 	},
 
 	request(url) {
 		var headers = new Headers();
 		headers.append("Authorization", "Basic " + btoa("admin:"+this.state.credentials));
-		return fetch(url, {
+		return Creed.timeout(2000, fetch(url, {
 			cors: true,
 			headers: headers
 		})
 		.then(function(response) {
 			if (response.ok)
 				return response.json();
-			throw new Error(response.status);
-		});
+			throw new Error("Network error: "+response.status);
+		}));
 	},
 
 
@@ -63,7 +68,7 @@ var App = React.createClass({
 				? <Playlist songs={this.state.playlist} />
 				: this.state.credentials
 				  ? "loading…"
-				  : <Login onComplete={this.setCredentials} message="Use the key that the server generated for you" /> }
+				  : <Login onComplete={this.setCredentials} message={this.state.loginmessage} /> }
 				{ this.state.isLoggedIn || this.state.credentials ? <a onClick={e => { e.preventDefault(); this.setCredentials(null); }}>Logout</a> : null }
 			</div>
 		);
