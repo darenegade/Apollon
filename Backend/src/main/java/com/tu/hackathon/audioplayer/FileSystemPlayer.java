@@ -23,7 +23,7 @@ public class FileSystemPlayer implements Player{
     // /Users/darenegade/Music/iTunes/Test/music.mp3
 
     try {
-      File f = new File("./../Music/" + track.getIsrc()+ ".wav");
+      File f = new File("./../Music/" + track.getId()+ ".wav");
       AudioInputStream ain = AudioSystem.getAudioInputStream(f);
       Clip clip = AudioSystem.getClip();
       clip.open(ain);
