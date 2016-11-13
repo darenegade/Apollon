@@ -198,7 +198,11 @@ public class PlaylistController implements Observer {
     SseEmitter emitter = new SseEmitter();
 
     emitters.put(emitter, getClientIP(request));
-    emitter.onCompletion(() -> emitters.remove(emitter));
+    emitter.onCompletion(() -> {
+      synchronized (lostEmitters) {
+        lostEmitters.add(emitter);
+      }
+    });
 
     emitter.send(SseEmitter.event()
         .id(CURRENT_TRACK)
