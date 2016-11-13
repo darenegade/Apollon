@@ -39,6 +39,6 @@ public class TrackVote implements Comparable<TrackVote>{
 
   @Override
   public int compareTo(TrackVote o) {
-    return Integer.compare(this.upVotes.size() - this.downVotes.size(), o.upVotes.size() - o.downVotes.size()) ;
+    return Integer.compare(o.upVotes.size() - o.downVotes.size(), this.upVotes.size() - this.downVotes.size()) ;
   }
 }

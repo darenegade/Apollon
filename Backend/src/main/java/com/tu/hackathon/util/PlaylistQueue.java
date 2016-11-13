@@ -66,7 +66,7 @@ public class PlaylistQueue extends Thread {
 
     Track nextTrack = tracks.entrySet()
         .stream()
-        .sorted(Map.Entry.comparingByValue(/*Collections.reverseOrder()*/))
+        .sorted(Map.Entry.comparingByValue())
         .map(e -> e.getValue().getTrack())
         .findFirst().orElseGet(() -> {
           List<Track> tracks = Lists.newArrayList(trackRepo.findAll());
