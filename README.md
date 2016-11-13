@@ -7,3 +7,10 @@ How to deploy the project on your local maschine:
 - For building frontend-project under Windows use the command `nmp run build_win`
 - Under UNIX us the command `nmp run build_unix`
 
+
+## Backend
+How to start the backend:
+
+- just start the spring boot application with maven: `mvn spring-boot:run` 
+
+Thats it
