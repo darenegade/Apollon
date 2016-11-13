@@ -13,8 +13,7 @@ var CurrentSong = React.createClass({
 
 
     render(){
-        <div className="panel panel-default" style={this.PanelDefaultStyle}>
-
+        return <div className="panel panel-default" style={this.PanelDefaultStyle}>
             <div className="panel-body">
                 <div className="col-xs-4 col-md-4 no-padding">
                     <img src={this.props.song.imageUrl} style={this.ImageStyle}/>

@@ -12,10 +12,11 @@ var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentView: "wishlist",
+            currentView: "search",
             playlist: [],
             wishlist:[],
-            searchresult:[]
+            searchresult:[],
+			currentSong:null
         }
 	},
 
@@ -45,7 +46,8 @@ var App = React.createClass({
     loadWishlist() {
         this.request(this.testaddress+"/playlist/wishlist").then(result => {
             this.setState({
-                wishlist: result
+                wishlist: Object.keys(result.wishlist).map(k => result.wishlist[k]),	
+				currentSong: result.currentSong
             });
             console.log("fetched wishlist");
         }, err => {
@@ -82,6 +84,15 @@ var App = React.createClass({
 		}));
     },
 
+	vote(songId, vote) {
+		fetch(this.testaddress+"/playlist/vote"+{"-1":"down", "1":"up"}[vote], {
+			method: "POST",
+			body: JSON.stringify(songId)
+		})
+		.then(response => response.text())
+		.then(console.log)
+	},
+
 	render(){
         const headerStyle = {
             //position: 'fixed',
@@ -111,17 +122,17 @@ var App = React.createClass({
 							case "search":
 								return <div>
                                     <Search onSearch={this.loadSearchResults} />
-                                    <Playlist songs={this.state.searchresult} view={"browse"} key="playl1" />;
+                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
                                 </div>;
 							case "current":
-								return <CurrentSong />;
+								return <CurrentSong song={this.state.currentSong} />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} view={this.state.currentView}  key="playl1"/>;
+							    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
                                 return <div>
-                                    <CurrentSong song={this.state.wishlist[0]}/>
-                                    <Playlist songs={this.state.wishlist} view={this.state.currentView}  key="playl1"/>
-                                </div>;
+                                    <CurrentSong song={this.state.currentSong} />
+									<SongList songs={this.state.wishlist} view="wish" handle={this.vote} />
+								</div>;
 							default:
 								console.error("no view for "+this.state.currentView);
 								return null;
