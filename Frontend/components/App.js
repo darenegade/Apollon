@@ -9,7 +9,7 @@ var FullScreenCurrent = require('./CurrentSongFullScreen');
 
 var App = React.createClass({
 
-    testaddress:"http://131.159.211.242:8080",
+    testaddress:"",
 
 	getInitialState(){
 		return {
