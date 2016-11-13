@@ -28,8 +28,7 @@ var SongListEntry = React.createClass({
 
 			<div className="panel-body">
 				<div className="col-xs-4 col-md-4 no-padding">
-					<img url={this.props.song.imageUrl} />
-					<img src="https://upload.wikimedia.org/wikipedia/en/2/27/Justin_Bieber_-_Purpose_(Official_Album_Cover).png" style={ImageStyle}/>
+					<img src={this.props.song.imageUrl} style={ImageStyle} />
 				</div>
 				<div className="col-xs-8 col-md-8 no-padding">
 					<div className="col-xs-8 col-md-8 no-padding">

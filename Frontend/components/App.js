@@ -8,15 +8,19 @@ var SongList = require('./Songlist');
 
 var App = React.createClass({
 
+    testaddress:"http://131.159.211.242:8080/api",
+
 	getInitialState(){
 		return {
             currentView: "wishlist",
             playlist: [],
+            wishlist:[],
         }
 	},
 
     componentDidMount() {
         this.loadPlaylist();
+        this.loadWishlist();
     },
 
 	setView(view) {
@@ -27,17 +31,24 @@ var App = React.createClass({
 
     loadPlaylist() {
         //console.log("loading playlist");
-        this.request("/playlist").then(result => {
+        this.request(this.testaddress+"/playlist").then(result => {
             this.setState({
                 playlist: result
             });
             //console.log("fetched playlist");
         }, err => {
             console.error(err);
+        });
+    },
+
+    loadWishlist() {
+        this.request(this.testaddress+"/playlist/wishlist").then(result => {
             this.setState({
-                credentials: null,
-                loginmessage: err.message
+                wishlist: result
             });
+            //console.log("fetched wishlist");
+        }, err => {
+            console.error(err);
         });
     },
 
@@ -47,11 +58,11 @@ var App = React.createClass({
             cors: true,
             headers: headers
         })
-            .then(function(response) {
-                if (response.ok)
-                    return response.json();
-                throw new Error("Network error: "+response.status);
-            }));
+		.then(function(response) {
+			if (response.ok)
+				return response.json();
+			throw new Error("Network error: "+response.status);
+		}));
     },
 
 	render(){
@@ -85,9 +96,9 @@ var App = React.createClass({
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <SongList songs={this.state.playlist} />
+							    return <Playlist songs={this.state.playlist} view={this.state.currentView} />;
 							case "wishlist":
-								return <SongList songs={[]} />;
+                                return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
 							default:
 								console.error("no view for "+this.state.currentView);
 								return null;
