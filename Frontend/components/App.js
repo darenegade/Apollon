@@ -2,9 +2,10 @@ var React = require('react');
 
 var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
-var HeaderIcon = require('./HeaderIcon');
+var Header = require('./Header');
 var CurrentSong = require('./CurrentSong');
 var SongList = require('./Songlist');
+var FullScreenCurrent = require('./CurrentSongFullScreen');
 
 var App = React.createClass({
 
@@ -110,28 +111,14 @@ var App = React.createClass({
 	},
 
 	render(){
-        const headerStyle = {
-            //position: 'fixed',
-            width: '100%',
 
-        };
-		const headerItemStyle = {
-			height: '100%',
-			marginTop: '5px',
-			fontSize: '40px'
-		};
 		return (
 		    <div>
                 <nav id="menu">
 					<NavigationMenu handleSelection={this.setView} />
 				</nav>
                 <main id="panel">
-                    <header style={headerStyle}>
-                        <div className="col-xs-12 col-md-12 header-container">
-                            <HeaderIcon/>
-                            <div className="col-xs-8 col-md-8"><h1 className="heading-apollon" style={headerItemStyle}>Apollon</h1></div>
-                        </div>
-                    </header>
+                    <Header/>
                     {(()=>{
 						// console.log("rendering", this.state)
 						switch(this.state.currentView) {
@@ -141,11 +128,11 @@ var App = React.createClass({
                                     <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
                                 </div>;
 							case "current":
-								return <CurrentSong song={this.state.currentSong} />;
+								return <FullScreenCurrent song={this.state.currentSong} />;
 							case "browse":
-							    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
+					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
-                                return <div>
+                                return <div className="container">
                                     <CurrentSong song={this.state.currentSong} />
 									<SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
 								</div>;

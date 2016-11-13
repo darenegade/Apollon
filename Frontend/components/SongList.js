@@ -19,15 +19,10 @@ var SongList = React.createClass({
 		elem.style.height = available+"px";
 	},
 
-	render(){
-		const ScrollStyle = {
-			overflowY: 'scroll',
-            width: '100%'
-		};
 
+	render(){
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-				<div id="scrollcontainer" style={ScrollStyle}>
 				{ this.props.songs && this.props.songs.length ?
 					this.props.songs.map(songObj =>
 						<SongListEntry key={songObj.id} song={songObj} score={0} voted="" handle={this.props.handle} view={this.props.view} />
@@ -45,6 +40,7 @@ var SongList = React.createClass({
 							view={this.props.view} />
 					})
 				  : <span className="error">No results</span>
+
 				}
 				</div>
 			</div>

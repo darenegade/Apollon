@@ -1,8 +1,6 @@
 var React = require('react');
 
-const PanelDefaultStyle = {
-	boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-};
+
 const ImageStyle = {
 	height: '123px',
 	width: '110px',
@@ -27,7 +25,7 @@ var SongListEntry = React.createClass({
 	render(){
 		return (
 
-		<div className="panel panel-default" style={PanelDefaultStyle}>
+		<div className="panel panel-default">
 
 			<div className="panel-body">
 				<div className="col-xs-4 col-md-4 no-padding">
