@@ -4,7 +4,7 @@ var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
 var HeaderIcon = require('./HeaderIcon');
 var CurrentSong = require('./CurrentSong');
-var Playlist = require('./Songlist');
+var SongList = require('./Songlist');
 
 var App = React.createClass({
 
@@ -12,7 +12,7 @@ var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentView: "whishlist",
+            currentView: "wishlist",
             playlist: [],
             wishlist:[],
             searchresult:[]
@@ -20,10 +20,8 @@ var App = React.createClass({
 	},
 
     componentDidMount() {
-        console.log("loading playlist");
         this.loadPlaylist();
         this.loadWishlist();
-
     },
 
 	setView(view) {
@@ -33,17 +31,14 @@ var App = React.createClass({
 	},
 
     loadPlaylist() {
+        //console.log("loading playlist");
         this.request(this.testaddress+"/playlist").then(result => {
             this.setState({
                 playlist: result
             });
-            console.log("fetched playlist");
+            //console.log("fetched playlist");
         }, err => {
             console.error(err);
-            this.setState({
-                credentials: null,
-                loginmessage: err.message
-            });
         });
     },
 
@@ -68,13 +63,9 @@ var App = React.createClass({
             this.setState({
                 searchresult: result
             });
-            console.log("fetched wishlist");
+            //console.log("fetched wishlist");
         }, err => {
             console.error(err);
-            this.setState({
-                credentials: null,
-                loginmessage: err.message
-            });
         });
     },
 
@@ -84,11 +75,11 @@ var App = React.createClass({
             cors: true,
             headers: headers
         })
-            .then(function(response) {
-                if (response.ok)
-                    return response.json();
-                throw new Error("Network error: "+response.status);
-            }));
+		.then(function(response) {
+			if (response.ok)
+				return response.json();
+			throw new Error("Network error: "+response.status);
+		}));
     },
 
 	render(){
@@ -115,6 +106,7 @@ var App = React.createClass({
                         </div>
                     </header>
                     {(()=>{
+						// console.log("rendering", this.state)
 						switch(this.state.currentView) {
 							case "search":
 								return <div>
@@ -131,7 +123,8 @@ var App = React.createClass({
                                     <Playlist songs={this.state.wishlist} view={this.state.currentView}  key="playl1"/>
                                 </div>;
 							default:
-								return <Playlist songs={[]} />;
+								console.error("no view for "+this.state.currentView);
+								return null;
 						}
 					})()}
                 </main>
