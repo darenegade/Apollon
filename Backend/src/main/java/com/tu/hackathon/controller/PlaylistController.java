@@ -35,7 +35,7 @@ import java.util.Observer;
  */
 @RestController
 @RequestMapping("/playlist")
-public class PlaylistController implements Observer{
+public class PlaylistController implements Observer {
 
   public static String CURRENT_TRACK = "CurrentTrack";
   public static String WISHLIST = "Wishlist";
@@ -49,36 +49,42 @@ public class PlaylistController implements Observer{
   private final List<SseEmitter> emitters = new ArrayList<>();
 
   @PostConstruct
-  public void init(){
+  public void init() {
     player.getPlayer().addObserver(this);
   }
 
   @RequestMapping(path = "/search", method = RequestMethod.GET)
-  public List<Track> searchPlaylist(@RequestParam("name") String name){
+  public List<Track> searchPlaylist(@RequestParam("name") String name) {
 
-    return trackRepo.findByNameContainingIgnoreCaseOrArtistNameContainingIgnoreCase(name,name);
+    return trackRepo.findByNameContainingIgnoreCaseOrArtistNameContainingIgnoreCase(name, name);
   }
 
   @RequestMapping(method = RequestMethod.GET)
   @Cacheable("playlist")
-  public Iterable<Track> getPlaylist(){
+  public Iterable<Track> getPlaylist() {
 
     return trackRepo.findAll();
   }
 
-  @RequestMapping(path = "/wishlist",method = RequestMethod.GET)
-  public Wishlist getWishList(HttpServletRequest request){
+  @RequestMapping(path = "/wishlist", method = RequestMethod.GET)
+  public Wishlist getWishList(HttpServletRequest request) {
 
     String ipAddress = getClientIP(request);
 
     Map<String, Wishlist.WishlistEntry> list = new HashMap<>();
 
-    for (Map.Entry<String, TrackVote> entry : player.getTracks().entrySet()) {
+    player.getTracks().entrySet().stream().sorted((o1, o2) -> {
+      TrackVote trackVote1 = o1.getValue();
+      TrackVote trackVote2 = o2.getValue();
+      int tv1 = trackVote1.getUpVotes().size() - trackVote1.getDownVotes().size();
+      int tv2 = trackVote2.getUpVotes().size() - trackVote2.getDownVotes().size();
+      return tv1 - tv2;
+    }).forEach(entry -> {
       TrackVote trackVote = entry.getValue();
       Wishlist.VoteType voteType = Wishlist.VoteType.NOT;
-      if(trackVote.getUpVotes().contains(ipAddress)){
+      if (trackVote.getUpVotes().contains(ipAddress)) {
         voteType = Wishlist.VoteType.UP;
-      } else if(trackVote.getUpVotes().contains(ipAddress)){
+      } else if (trackVote.getUpVotes().contains(ipAddress)) {
         voteType = Wishlist.VoteType.DOWN;
       }
 
@@ -89,38 +95,39 @@ public class PlaylistController implements Observer{
           voteType);
 
       list.put(entry.getKey(), wishlistEntry);
-    }
+    });
+
 
     return Wishlist.builder().currentSong(player.currentTrack()).wishlist(list).build();
   }
 
 
-  @RequestMapping(path = "/voteup",method = RequestMethod.POST)
-  public void voteUp(@RequestBody String trackId, HttpServletRequest request){
+  @RequestMapping(path = "/voteup", method = RequestMethod.POST)
+  public void voteUp(@RequestBody String trackId, HttpServletRequest request) {
     vote(trackId, request, true);
   }
 
-  @RequestMapping(path = "/votedown",method = RequestMethod.POST)
-  public void voteDown(@RequestBody String trackId, HttpServletRequest request){
+  @RequestMapping(path = "/votedown", method = RequestMethod.POST)
+  public void voteDown(@RequestBody String trackId, HttpServletRequest request) {
     vote(trackId, request, false);
   }
 
-  private void vote(String trackId, HttpServletRequest request, boolean upVote){
+  private void vote(String trackId, HttpServletRequest request, boolean upVote) {
     String ipAddress = getClientIP(request);
 
-    if(trackId == null)
+    if (trackId == null)
       throw new IllegalArgumentException("No Track Provided");
 
     Track track = trackRepo.findOne(trackId);
 
-    if(track != null) {
+    if (track != null) {
       player.queueOnPlaylist(ipAddress, track, upVote);
 
-      sendToEmitters(WISHLIST,getWishList(request).getWishlist().get(trackId));
+      sendToEmitters(WISHLIST, getWishList(request).getWishlist().get(trackId));
     }
   }
 
-  public void sendToEmitters(String key, Object o){
+  public void sendToEmitters(String key, Object o) {
     emitters.forEach((SseEmitter emitter) -> {
       try {
         emitter.send(SseEmitter.event()

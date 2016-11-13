@@ -49,7 +49,10 @@ public class PlaylistQueue extends Thread {
 
   public synchronized void queueOnPlaylist(String id, Track track, boolean upVote) {
 
-    if (tracks.containsKey(track.getId())) {
+    if (tracks.containsKey(track.getId()) &&
+        !tracks.get(track.getId()).getUpVotes().contains(id) &&
+        !tracks.get(track.getId()).getDownVotes().contains(id)) {
+
       if (upVote){
         tracks.get(track.getId()).addUp(id);
       }else {
