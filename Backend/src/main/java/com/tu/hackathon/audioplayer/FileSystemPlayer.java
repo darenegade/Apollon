@@ -39,7 +39,6 @@ public class FileSystemPlayer extends Player{
       currentTrack = track;
       notifyObservers();
 
-      System.out.println("\n\nStarted");
       Thread.sleep(clip.getMicrosecondLength()/1000);
 
     }catch (Exception e){
