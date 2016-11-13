@@ -1,11 +1,11 @@
 info:
  component: Zuul Server
 
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000000
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 900000000
 
-ribbon.ReadTimeout: 10000000
-zuul.host.connect-timeout-millis: 10000000
-zuul.host.socket-timeout-millis: 10000000
+ribbon.ReadTimeout: 900000000
+zuul.host.connect-timeout-millis: 900000000
+zuul.host.socket-timeout-millis: 900000000
 
 endpoints:
  restart:
