@@ -4,6 +4,8 @@ import com.tu.hackathon.domain.Track;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 /**
  * Organization: HM FK07.
  * Project: Apollon_Backend, com.tu.hackathon.repositories
@@ -15,5 +17,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @RepositoryRestResource(exported = false)
 public interface TrackRepo extends CrudRepository<Track, String> {
+
+  List<Track> findByNameContainingIgnoreCaseOrArtistNameContainingIgnoreCase(String name, String artistName);
 
 }
