@@ -84,7 +84,7 @@ public class PlaylistController implements Observer {
       Wishlist.VoteType voteType = Wishlist.VoteType.NOT;
       if (trackVote.getUpVotes().contains(ipAddress)) {
         voteType = Wishlist.VoteType.UP;
-      } else if (trackVote.getUpVotes().contains(ipAddress)) {
+      } else if (trackVote.getDownVotes().contains(ipAddress)) {
         voteType = Wishlist.VoteType.DOWN;
       }
 
