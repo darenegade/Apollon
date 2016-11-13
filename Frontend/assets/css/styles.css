@@ -208,6 +208,26 @@ a.list-group-item {
 	overflow-x: hidden;
 	text-align: left;
 }
+.artist-current {
+	font-family: monospace;
+	font-size: 2.0em;
+	/*word-wrap: break-word;*/
+	text-overflow: ellipsis;
+
+	/* Required for text-overflow to do anything */
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: left;
+}
+.song-current {
+	font-size: 1.8em;
+	/*word-wrap: break-word;*/
+	text-overflow: ellipsis;
+	/* Required for text-overflow to do anything */
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-align: left;
+}
 .smalltext{
 	font-size:0.7em;
 }
