@@ -20,6 +20,8 @@ public class FileSystemPlayer implements Player{
 
   String basePath;
 
+  Track currentTrack;
+
   public FileSystemPlayer(String basePath) {
     this.basePath = basePath;
   }
@@ -34,6 +36,8 @@ public class FileSystemPlayer implements Player{
       clip.open(ain);
       clip.start();
 
+      currentTrack = track;
+
       System.out.println("\n\nStarted");
       Thread.sleep(clip.getMicrosecondLength()/1000);
 
@@ -41,5 +45,10 @@ public class FileSystemPlayer implements Player{
       e.printStackTrace();
     }
 
+  }
+
+  @Override
+  public Track currentTrack() {
+    return currentTrack;
   }
 }

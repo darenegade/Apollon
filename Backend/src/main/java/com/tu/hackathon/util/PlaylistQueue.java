@@ -75,13 +75,14 @@ public class PlaylistQueue extends Thread {
     return nextTrack;
   }
 
+  public Track currentTrack(){
+    return player.currentTrack();
+  }
+
   @Override
   public void run() {
     while (true) {
-
-
       player.playTrack(getNextTrack());
-
     }
   }
 }

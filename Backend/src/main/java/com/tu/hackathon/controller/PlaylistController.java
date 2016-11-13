@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,31 @@ public class PlaylistController {
   }
 
   @RequestMapping(path = "/wishlist",method = RequestMethod.GET)
-  public Map<String,TrackVote> getWishList(){
-    return player.getTracks();
+  public Wishlist getWishList(HttpServletRequest request){
+
+    String ipAddress = getClientIP(request);
+
+    Map<String, Wishlist.WishlistEntry> list = new HashMap<>();
+
+    for (Map.Entry<String, TrackVote> entry : player.getTracks().entrySet()) {
+      TrackVote trackVote = entry.getValue();
+      Wishlist.VoteType voteType = Wishlist.VoteType.NOT;
+      if(trackVote.getUpVotes().contains(ipAddress)){
+        voteType = Wishlist.VoteType.UP;
+      } else if(trackVote.getUpVotes().contains(ipAddress)){
+        voteType = Wishlist.VoteType.DOWN;
+      }
+
+      Wishlist.WishlistEntry wishlistEntry = new Wishlist.WishlistEntry(
+          trackVote.getTrack(),
+          trackVote.getUpVotes().size(),
+          trackVote.getDownVotes().size(),
+          voteType);
+
+      list.put(entry.getKey(), wishlistEntry);
+    }
+
+    return Wishlist.builder().currentSong(player.currentTrack()).wishlist(list).build();
   }
 
 
@@ -65,11 +89,7 @@ public class PlaylistController {
   }
 
   private void vote(String trackId, HttpServletRequest request, boolean upVote){
-    String ipAddress = request.getHeader("X-FORWARDED-FOR");
-    if (ipAddress == null) {
-      ipAddress = request.getRemoteAddr();
-    }
-
+    String ipAddress = getClientIP(request);
 
     if(trackId == null)
       throw new IllegalArgumentException("No Track Provided");
@@ -81,13 +101,21 @@ public class PlaylistController {
 
       emitters.forEach((SseEmitter emitter) -> {
         try {
-          emitter.send(getWishList().get(trackId), MediaType.APPLICATION_JSON);
+          emitter.send(getWishList(request).getWishlist().get(trackId), MediaType.APPLICATION_JSON);
         } catch (IOException e) {
           emitter.complete();
           emitters.remove(emitter);
         }
       });
     }
+  }
+
+  private String getClientIP(HttpServletRequest request) {
+    String ipAddress = request.getHeader("X-FORWARDED-FOR");
+    if (ipAddress == null) {
+      ipAddress = request.getRemoteAddr();
+    }
+    return ipAddress;
   }
 
 

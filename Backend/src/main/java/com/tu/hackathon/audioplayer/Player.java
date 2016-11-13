@@ -13,4 +13,5 @@ import com.tu.hackathon.domain.Track;
  */
 public interface Player {
   void playTrack(Track track);
+  Track currentTrack();
 }
