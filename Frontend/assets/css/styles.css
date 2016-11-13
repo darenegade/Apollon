@@ -262,10 +262,14 @@ a.list-group-item {
 }
 
 .apollon-button, .apollon-button:focus, .apollon-button:active {
-	background-color: rgb(11,166,116);
+	background-color: transparent;
 	color: #FFFFFF;
 	-webkit-tap-highlight-color: rgba(0,0,0,0) !important;
 	outline: none;
+	border: none;
+}
+.apollon-button > i {
+	color: rgb(11,166,116);
 }
 
 .error {
@@ -289,6 +293,17 @@ a.list-group-item {
 	background: transparent;
 }
 
+.infoTextJuke {
+	font-family: monospace;
+	font-size: 0.4em;
+	color: rgb(11,166,116);
+	text-align: left;
+}
+
+.loading {
+	text-align: center;
+	font-size: 1.2em;
+}
 
 
 
