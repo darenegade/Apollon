@@ -4,7 +4,7 @@ var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
 var Header = require('./Header');
 var CurrentSong = require('./CurrentSong');
-var Playlist = require('./Songlist');
+var SongList = require('./Songlist');
 
 var App = React.createClass({
 
@@ -12,17 +12,17 @@ var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentView: "whishlist",
+            currentView: "search",
             playlist: [],
             wishlist:[],
+            searchresult:[],
+			currentSong:null
         }
 	},
 
     componentDidMount() {
-        console.log("loading playlist");
         this.loadPlaylist();
         this.loadWishlist();
-
     },
 
 	setView(view) {
@@ -32,24 +32,22 @@ var App = React.createClass({
 	},
 
     loadPlaylist() {
+        //console.log("loading playlist");
         this.request(this.testaddress+"/playlist").then(result => {
             this.setState({
                 playlist: result
             });
-            console.log("fetched playlist");
+            //console.log("fetched playlist");
         }, err => {
             console.error(err);
-            this.setState({
-                credentials: null,
-                loginmessage: err.message
-            });
         });
     },
 
     loadWishlist() {
         this.request(this.testaddress+"/playlist/wishlist").then(result => {
             this.setState({
-                playlist: result
+                wishlist: Object.keys(result.wishlist).map(k => result.wishlist[k]),	
+				currentSong: result.currentSong
             });
             console.log("fetched wishlist");
         }, err => {
@@ -61,18 +59,39 @@ var App = React.createClass({
         });
     },
 
+    loadSearchResults(searchtext) {
+        console.log("loading searchresults for: "+searchtext);
+        this.request(this.testaddress+"/playlist/search?name="+searchtext).then(result => {
+            this.setState({
+                searchresult: result
+            });
+            //console.log("fetched wishlist");
+        }, err => {
+            console.error(err);
+        });
+    },
+
     request(url) {
         var headers = new Headers();
         return Creed.timeout(2000, fetch(url, {
             cors: true,
             headers: headers
         })
-            .then(function(response) {
-                if (response.ok)
-                    return response.json();
-                throw new Error("Network error: "+response.status);
-            }));
+		.then(function(response) {
+			if (response.ok)
+				return response.json();
+			throw new Error("Network error: "+response.status);
+		}));
     },
+
+	vote(songId, vote) {
+		fetch(this.testaddress+"/playlist/vote"+{"-1":"down", "1":"up"}[vote], {
+			method: "POST",
+			body: JSON.stringify(songId)
+		})
+		.then(response => response.text())
+		.then(console.log)
+	},
 
 	render(){
 
@@ -84,18 +103,25 @@ var App = React.createClass({
                 <main id="panel">
                     <Header/>
                     {(()=>{
+						// console.log("rendering", this.state)
 						switch(this.state.currentView) {
 							case "search":
-								return <Search onSearch={this.searchForAddress} />;
+								return <div>
+                                    <Search onSearch={this.loadSearchResults} />
+                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
+                                </div>;
 							case "current":
-								return <CurrentSong />;
+								return <CurrentSong song={this.state.currentSong} />;
 							case "browse":
-							    return
-                                <Playlist songs={this.state.playlist} view={this.state.currentView} />;
+					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
-                                return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
+                                return <div>
+                                    <CurrentSong song={this.state.currentSong} />
+									<SongList songs={this.state.wishlist} view="wish" handle={this.vote} />
+								</div>;
 							default:
-								return <Playlist songs={[]} />;
+								console.error("no view for "+this.state.currentView);
+								return null;
 						}
 					})()}
                 </main>

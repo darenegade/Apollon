@@ -50,11 +50,11 @@ var SongListEntry = React.createClass({
 							</div>
 						: this.props.view == "browse" ?
 							<div className="col-xs-4 col-md-4">
-								<i onClick={this.makeClickHandler(false)} className="fa fa-heart-o fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
+								<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
 							</div>
 						: this.props.view == "browse-admin" ?
 							<div className="col-xs-4 col-md-4">
-								<i onClick={this.makeClickHandler(false)} className="fa fa-heart-o fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
+								<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
 							</div>
 						: <div className="col-xs-4 col-md-4"></div>
 					}

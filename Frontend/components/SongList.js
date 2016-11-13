@@ -3,42 +3,37 @@ var SongListEntry = require('./SongListEntry');
 
 var SongList = React.createClass({
 
-	/**
-	 * React standard method to define components initial state.
-	 */
-	getInitialState: function () {
-		return {
-			songs: this.props.songs
-		};
-	},
-
 	componentDidMount() {
-		console.log(window.innerHeight);
-		availableheight=window.innerHeight-100;
-		var elem=document.getElementById("scrollcontainer");
-		console.log("set height to "+availableheight);
-		elem.style.height= availableheight+"px";
+		
+		window.addEventListener("resize", this.adjustHeight);
+		this.adjustHeight();
 	},
 
-    checkIfSongExists: function (songs) {
-      if (songs != null) {
-          return songs.map(songObj =>
-              <SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />)
-      }
-    },
+	adjustHeight() {
+		var elem = document.getElementById("scrollcontainer");
+		console.log(window.innerHeight);
+		var availableheight = window.innerHeight-elem.getBoundingClientRect().top;
+
+		console.log("set height to "+availableheight);
+		elem.style.height = availableheight+"px";
+	},
+
 
 	render(){
 		const ScrollStyle = {
 			overflowY: 'scroll',
             width: '100%'
-
 		};
 
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
 				<div id="scrollcontainer" style={ScrollStyle}>
-				{
-                    this.checkIfSongExists(this.state.songs)
+				{ this.props.songs.length ?
+					this.props.songs.map(songObj =>
+						<SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />
+					)
+				  : <span className="error">No results</span>
+
 				}
 				</div>
 			</div>
