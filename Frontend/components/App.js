@@ -13,7 +13,7 @@ var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentView: "search",
+            currentView: "wishlist",
             playlist: [],
             searchresult: [],
             wishlist: [],
@@ -25,7 +25,25 @@ var App = React.createClass({
     componentDidMount() {
         this.loadPlaylist();
         this.loadWishlist();
+		this.events = new EventSource(this.testaddress+"/playlist/stream");
+		this.events.onmessage = event => {
+			console.log(event);
+			var data = JSON.parse(event.data);
+			if (event.lastEventId == "CurrentTrack") {
+				delete this.state.wishes[data.id];
+				this.setState({
+					currentSong: data,
+					wishlist: this.getWishlist(this.state.wishes)
+				});
+			} else if (event.lastEventId == "Wishlist") {
+				this.updateWish(data);
+			}
+		};
     },
+
+	componentWillUnmount() {
+		this.events.close();
+	},
 
 	setView(view) {
 		this.setState({
@@ -86,18 +104,18 @@ var App = React.createClass({
     },
 
 	vote(songId, vote) {
-		console.log(typeof songId);
 		fetch(this.testaddress+"/playlist/vote"+{"-1":"down", "1":"up"}[vote], {
 			method: "POST",
 			body: songId // JSON.stringify(songId)
 		})
 		.then(response => response.text())
-		.then(console.log.bind(console, "voted"), console.error)
+		//.then(console.log.bind(console, "voted"), console.error)
+		.catch(console.error)
 	},
 	
 	getWishlist(wishes) {
 		return Object.keys(wishes).sort((a, b) => {
-			wishes[a].score - wishes[b].score;
+			return wishes[b].score - wishes[a].score;
 		})
 	},
 	
@@ -105,6 +123,7 @@ var App = React.createClass({
 		var wishes = this.state.wishes;
 		wishes[w.track.id] = w;
 		w.score = w.up - w.down;
+		console.log("updated", w, wishes)
 		this.setState({
 			wishlist: this.getWishlist(wishes)
 		})
@@ -120,20 +139,20 @@ var App = React.createClass({
                 <main id="panel">
                     <Header/>
                     {(()=>{
-						// console.log("rendering", this.state)
+						console.log("rendering", this.state)
 						switch(this.state.currentView) {
 							case "search":
 								return <div>
                                     <Search onSearch={this.loadSearchResults} />
-                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
+                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />
                                 </div>;
 							case "current":
 								return <FullScreenCurrent song={this.state.currentSong} />;
 							case "browse":
-					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
+								return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
                                 return <div className="container">
-                                    <CurrentSong song={this.state.currentSong} />
+									<CurrentSong song={this.state.currentSong} />
 									<SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
 								</div>;
 							default:

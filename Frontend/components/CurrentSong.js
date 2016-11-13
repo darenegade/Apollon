@@ -15,6 +15,7 @@ var CurrentSong = React.createClass({
 
     render(){
         return <div className="panel panel-default" style={this.PanelDefaultStyle}>
+			{ this.props.song ?
             <div className="panel-body">
                 <div className="col-xs-3 col-md-3 no-padding">
                     <img src={this.props.song.imageUrl} style={this.ImageStyle}/>
@@ -30,6 +31,7 @@ var CurrentSong = React.createClass({
                     </div>
                 </div>
             </div>
+			: <div className="panel-body">Loading&hellip;</div> }
         </div>
     }
 
