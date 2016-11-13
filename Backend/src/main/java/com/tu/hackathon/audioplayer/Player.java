@@ -2,6 +2,8 @@ package com.tu.hackathon.audioplayer;
 
 import com.tu.hackathon.domain.Track;
 
+import java.util.Observable;
+
 /**
  * Organization: HM FK07.
  * Project: Apollon_Backend, com.tu.hackathon.audioplayer
@@ -11,7 +13,7 @@ import com.tu.hackathon.domain.Track;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-public interface Player {
-  void playTrack(Track track);
-  Track currentTrack();
+public abstract class Player extends Observable {
+  public abstract void playTrack(Track track);
+  public abstract Track currentTrack();
 }

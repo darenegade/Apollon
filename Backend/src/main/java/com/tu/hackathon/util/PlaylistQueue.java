@@ -37,6 +37,7 @@ public class PlaylistQueue extends Thread {
   @Getter
   private Map<String,TrackVote> tracks = new HashMap<>();
 
+  @Getter
   private Player player;
   private Random random = new Random(System.currentTimeMillis());
 

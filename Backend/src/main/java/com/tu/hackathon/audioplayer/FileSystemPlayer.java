@@ -16,11 +16,11 @@ import java.io.File;
  * Java-Version: 1.8
  * System: 2,3 GHz Intel Core i7, 16 GB 1600 MHz DDR3
  */
-public class FileSystemPlayer implements Player{
+public class FileSystemPlayer extends Player{
 
-  String basePath;
+  private String basePath;
 
-  Track currentTrack;
+  private Track currentTrack;
 
   public FileSystemPlayer(String basePath) {
     this.basePath = basePath;
@@ -37,6 +37,7 @@ public class FileSystemPlayer implements Player{
       clip.start();
 
       currentTrack = track;
+      notifyObservers();
 
       System.out.println("\n\nStarted");
       Thread.sleep(clip.getMicrosecondLength()/1000);

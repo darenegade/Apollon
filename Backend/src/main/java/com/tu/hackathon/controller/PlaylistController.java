@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Organization: HM FK07.
@@ -32,7 +36,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/playlist")
-public class PlaylistController {
+public class PlaylistController implements Observer{
 
   @Autowired
   PlaylistQueue player;
@@ -42,6 +46,10 @@ public class PlaylistController {
 
   private final List<SseEmitter> emitters = new ArrayList<>();
 
+  @PostConstruct
+  public void init(){
+    player.getPlayer().addObserver(this);
+  }
 
   @RequestMapping(path = "/search", method = RequestMethod.GET)
   public List<Track> searchPlaylist(@RequestParam("name") String name){
@@ -106,15 +114,19 @@ public class PlaylistController {
     if(track != null) {
       player.queueOnPlaylist(ipAddress, track, upVote);
 
-      emitters.forEach((SseEmitter emitter) -> {
-        try {
-          emitter.send(getWishList(request).getWishlist().get(trackId), MediaType.APPLICATION_JSON);
-        } catch (IOException e) {
-          emitter.complete();
-          emitters.remove(emitter);
-        }
-      });
+      sendToEmitters("wishlist",getWishList(request).getWishlist().get(trackId));
     }
+  }
+
+  public void sendToEmitters(String key, Object o){
+    emitters.forEach((SseEmitter emitter) -> {
+      try {
+        emitter.send(Collections.singletonMap(key,o), MediaType.APPLICATION_JSON);
+      } catch (IOException e) {
+        emitter.complete();
+        emitters.remove(emitter);
+      }
+    });
   }
 
   private String getClientIP(HttpServletRequest request) {
@@ -134,7 +146,14 @@ public class PlaylistController {
     emitters.add(emitter);
     emitter.onCompletion(() -> emitters.remove(emitter));
 
+    emitter.send(Collections.singletonMap("currentTrack",player.currentTrack()), MediaType.APPLICATION_JSON);
+
     return emitter;
   }
 
+  @Override
+  public void update(Observable o, Object arg) {
+
+    sendToEmitters("currentTrack", player.currentTrack());
+  }
 }
