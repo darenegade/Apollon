@@ -40,35 +40,34 @@ var SongListEntry = React.createClass({
 					{
 						this.props.view == "wish" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-lg-7">
-								<span>{this.props.score}</span>
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
+								<span>{(this.props.score>0 ? "+" : "") + this.props.score}</span>
+								<button className="icon-button" onClick={this.makeClickHandler(+1)}>
+									<i className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(-1)} className="fa fa-thumbs-o-down fa-2x" style={IconVoteStyle(this.props.voted, "DOWN")} aria-hidden="true"></i>
+								<button className="icon-button" onClick={this.makeClickHandler(-1)}>
+									<i className="fa fa-thumbs-o-down fa-2x" style={IconVoteStyle(this.props.voted, "DOWN")} aria-hidden="true"></i>
 								</button>
-
 							</div>
 						: this.props.view == "wish-admin" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-xs-4 col-md-4 col-lg-7">
-								<span>{this.props.score}</span>
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
+								<span>{(this.props.score>0 ? "+" : "") + this.props.score}</span>
+								<button className="icon-button" onClick={this.makeClickHandler(+1)}>
+									<i className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(-1)} className="fa fa-thumbs-o-down fa-2x" style={IconVoteStyle(this.props.voted, "DOWN")} aria-hidden="true"></i>
+								<button className="icon-button" onClick={this.makeClickHandler(-1)}>
+									<i className="fa fa-thumbs-o-down fa-2x" style={IconVoteStyle(this.props.voted, "DOWN")} aria-hidden="true"></i>
 								</button>
 							</div>
 						: this.props.view == "browse" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-xs-4 col-md-4 col-lg-7">
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
+								<button className="icon-button" onClick={this.makeClickHandler(+1)}>
+									<i className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
 							</div>
 						: this.props.view == "browse-admin" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-xs-4 col-md-4 col-lg-7">
-								<button className="icon-button">
-									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
+								<button className="icon-button" onClick={this.makeClickHandler(+1)}>
+									<i className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
 							</div>
 						: <div className="col-xs-4 col-s-4 col-md-4 col-xs-4 col-md-4 col-lg-7"></div>
