@@ -11,34 +11,27 @@ var Search = React.createClass({
 	},
 
 	handleSubmit(event){
-		
 		event.preventDefault();
-		
-		// When the form is submitted, call the onSearch callback that is passed to the component
-		this.props.onSearch(this.state.value);
+		this.props.onComplete(this.state.value);
 
 		// Unfocus the text input field
 		this.getDOMNode().querySelector('input').blur();
 	},
 
 	render() {
-		const SearchStyle = {
-			height: '55px',
-			color: '#2c3e50',
-			fontFamily: 'monospace',
-		};
 
 		return (
-			<form id="geocoding_form" className="form-horizontal" onSubmit={this.handleSubmit}>
+			<form id="login_form" className="form-horizontal" onSubmit={this.handleSubmit}>
 				<div className="form-group">
 					<div className="col-xs-12 col-md-6 col-md-offset-3">
 						<div className="input-group">
-							<input type="text" className="form-control" style={SearchStyle} id="address" placeholder="Search for Songs..."
+							<input type="text" className="form-control" id="adminkey" placeholder="Your access key" 
 							value={this.state.value} onChange={this.handleChange} />
 							<span className="input-group-btn">
-								<span className="glyphicon glyphicon-search" aria-hidden="true"></span>
+								<span className="glyphicon glyphicon-arrow-right"></span>
 							</span>
 						</div>
+						<div>{this.props.message}</div>
 					</div>
 				</div>
 			</form>
