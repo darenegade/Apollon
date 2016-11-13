@@ -22,29 +22,23 @@ var SongList = React.createClass({
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
 				<div id="scrollcontainer">
-				{ this.props.songs && this.props.songs.length ?
-					this.props.songs.map(songObj =>
-						<SongListEntry key={songObj.id} song={songObj} score={0} voted="" handle={this.props.handle} view={this.props.view} />
-					)
-				  : this.props.selection && this.props.selection.length ?
-					this.props.selection.map(songId => {
-						const songObj = this.props.songs[songId];
+				{ this.props.selection.length ?
+					this.props.selection.map(songObj => {
+						if (!songObj) return null;
 						// console.log(songObj);
 						return <SongListEntry
-							key={songId}
+							key={songObj.track.id}
 							song={songObj.track}
 							score={songObj.score}
 							voted={songObj.voted}
 							handle={this.props.handle}
 							view={this.props.view} />
 					})
-				  :
-                    <div className="error">
-                        <p className="error-warning"> { this.props.view == 'wish' ? "DJ shuffle is on the turn tables ... " : "No results could be found ..."} </p>
+				:   <div className="error">
+                        <p className="error-warning">
+						{ this.props.view == 'wish' ? "DJ Shuffle is on the turn tables ... " : "No results could be found ..."}
+						</p>
                     </div>
-
-
-
 				}
 				</div>
             </div>
