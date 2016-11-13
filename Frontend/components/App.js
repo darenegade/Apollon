@@ -44,7 +44,7 @@ var App = React.createClass({
     loadWishlist() {
         this.request(this.testaddress+"/playlist/wishlist").then(result => {
             this.setState({
-                wishlist: result
+                wishlist: Object.keys(result.wishlist)
             });
             //console.log("fetched wishlist");
         }, err => {
@@ -64,6 +64,15 @@ var App = React.createClass({
 			throw new Error("Network error: "+response.status);
 		}));
     },
+
+	vote(songId, vote) {
+		fetch(this.testaddress+"/playlist/vote"+{"-1":"down", "1":"up"}[vote], {
+			method: "POST",
+			body: JSON.stringify(songId)
+		})
+		.then(response => response.text())
+		.then(console.log)
+	},
 
 	render(){
         const headerStyle = {
@@ -96,9 +105,9 @@ var App = React.createClass({
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} view={this.state.currentView} />;
+							    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
-                                return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
+                                return <SongList songs={this.state.wishlist} view="wish" handle={this.vote} />;
 							default:
 								console.error("no view for "+this.state.currentView);
 								return null;
