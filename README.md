@@ -1,4 +1,7 @@
 # Apollon
+Make the playlist greate again!!
+
+
 
 ## Frontend
 How to deploy the project on your local maschine: 
@@ -13,6 +16,12 @@ How to deploy the project on your local maschine:
 How to start the backend:
 
 - change directory: `cd Backend` 
+- just start the spring boot application with maven: `mvn spring-boot:run` 
+
+## API Gateway
+How to start the backend:
+
+- change directory: `cd ApiGateway` 
 - just start the spring boot application with maven: `mvn spring-boot:run` 
 
 Thats it
