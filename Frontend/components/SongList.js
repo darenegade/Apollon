@@ -6,6 +6,7 @@ var SongList = React.createClass({
 	componentDidMount() {
 		this.container = document.getElementById("scrollcontainer");
 		window.addEventListener("resize", this.adjustHeight);
+		this.adjustHeight();
 	},
 
 	adjustHeight() {
