@@ -56,6 +56,10 @@ var SongListEntry = React.createClass({
 							<div className="col-xs-4 col-md-4">
 								<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
 							</div>
+						: this.props.view == "buy" ?
+							<div className="col-xs-4 col-md-4">
+								<i onClick={this.makeClickHandler(+1)} className="fa fa-plus fa-2x" style={IconVoteStyle} aria-hidden="true"></i>
+							</div>
 						: <div className="col-xs-4 col-md-4"></div>
 					}
 				</div>
