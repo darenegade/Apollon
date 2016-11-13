@@ -11,9 +11,9 @@ var SongList = React.createClass({
 
 	adjustHeight() {
 		var elem = document.getElementById("scrollcontainer");
-		var win = window.innerHeight,
-		    top = elem.getBoundingClientRect().top,
-		    available = win-top;
+		var win = window.innerHeight;
+		var   top = elem.getBoundingClientRect().top;
+        var  available = win-top;
 
 		console.log("set height to "+win+"-"+top+": "+available);
 		elem.style.height = available+"px";
@@ -23,6 +23,7 @@ var SongList = React.createClass({
 	render(){
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
+                <div id="scrollcontainer">
 				{ this.props.songs && this.props.songs.length ?
 					this.props.songs.map(songObj =>
 						<SongListEntry key={songObj.id} song={songObj} score={0} voted="" handle={this.props.handle} view={this.props.view} />
@@ -43,7 +44,7 @@ var SongList = React.createClass({
 
 				}
 				</div>
-			</div>
+            </div>
 		)
 	}
 
