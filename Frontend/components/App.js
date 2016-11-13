@@ -16,7 +16,9 @@ var App = React.createClass({
 	},
 
     componentDidMount() {
+        console.log("loading playlist");
         this.loadPlaylist();
+
     },
 
 	setView(view) {
@@ -30,6 +32,7 @@ var App = React.createClass({
             this.setState({
                 playlist: result
             });
+            console.log("fetched playlist");
         }, err => {
             console.error(err);
             this.setState({

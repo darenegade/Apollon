@@ -18,7 +18,7 @@ var SongListEntry = React.createClass({
 		return (
 
 		<div className="panel panel-default" style={PanelDefaultStyle}>
-			<div className="panel-body">
+			<div className="panel-body songlistpanelbody">
 				<div className="col-xs-4 col-md-4">
 					<img url={this.props.song.imageUrl} />
 					<img src="https://upload.wikimedia.org/wikipedia/en/2/27/Justin_Bieber_-_Purpose_(Official_Album_Cover).png" style={ImageStyle}/>
