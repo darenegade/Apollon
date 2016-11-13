@@ -1,7 +1,7 @@
 # Apollon
 Make the playlist greate again!!
 
-[Imgur](http://i.imgur.com/NjLMeLC.png)
+[Apollon Architecture](http://i.imgur.com/NjLMeLC.png)
 
 ## Frontend
 How to deploy the project on your local maschine: 
