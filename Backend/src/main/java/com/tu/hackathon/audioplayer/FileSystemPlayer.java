@@ -37,6 +37,7 @@ public class FileSystemPlayer extends Player{
       clip.start();
 
       currentTrack = track;
+      setChanged();
       notifyObservers();
 
       Thread.sleep(clip.getMicrosecondLength()/1000);
