@@ -142,7 +142,9 @@ public class PlaylistController implements Observer {
       }
     });
 
-    lostEmitters.forEach(emitters::remove);
+    synchronized (this) {
+      lostEmitters.forEach(emitters::remove);
+    }
   }
 
   private String getClientIP(HttpServletRequest request) {
@@ -155,7 +157,7 @@ public class PlaylistController implements Observer {
 
 
   @RequestMapping(path = "/stream", method = RequestMethod.GET)
-  public SseEmitter stream() throws IOException {
+  public synchronized SseEmitter stream() throws IOException {
 
     SseEmitter emitter = new SseEmitter();
 
