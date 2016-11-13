@@ -110,6 +110,8 @@ var App = React.createClass({
 		})
 	},
 
+
+
 	render(){
 
 		return (
@@ -132,10 +134,10 @@ var App = React.createClass({
 							case "browse":
 					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
-                                return <div className="container">
-                                    <CurrentSong song={this.state.currentSong} />
-									<SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
-								</div>;
+                                return <div>
+                                        <CurrentSong song={this.state.currentSong} />
+                                        <SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
+                                    </div>
 							default:
 								console.error("no view for "+this.state.currentView);
 								return null;

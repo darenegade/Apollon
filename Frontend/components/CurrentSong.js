@@ -11,6 +11,7 @@ var CurrentSong = React.createClass({
     ImageStyle: {
         height: '86px',
         width: '86px',
+        align: 'right'
     },
 
     render(){
@@ -25,7 +26,6 @@ var CurrentSong = React.createClass({
                         <div className="song-current">{this.props.song.name}</div>
                     </div>
                     <div className="col-xs-3 col-md-3 no-padding">
-
                         <img src="/img/equalizer.gif" style={this.ImageStyle} ></img>
                     </div>
                 </div>

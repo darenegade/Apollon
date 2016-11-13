@@ -148,8 +148,7 @@ a.list-group-item span.createdAt {
 	z-index: -1;
 }
 
-.menu-list-heading {
-	background-color: transparent;
+.menu-list-heading, .menu-list-heading:focus, .menu-list-heading:active, .menu-list-heading:hover{
 	border: none;
 	font-size: 3em;
 	font-family: monospace;
@@ -272,15 +271,22 @@ a.list-group-item {
 .error {
 	height: 40px;
 	background-color: #FFFFFF;
-	-webkit-box-shadow: 0 8px 6px -6px black;
-	-moz-box-shadow: 0 8px 6px -6px black;
-	box-shadow: 0 8px 6px -6px black;
+	-webkit-box-shadow: 0 8px 6px -6px #95a5a6;
+	-moz-box-shadow: 0 8px 6px -6px #95a5a6;
+	box-shadow: 0 8px 6px -6px #95a5a6;
 }
 
-.a.error {
+.error-warning {
 	font-family: monospace;
 	font-size: 1.3em;
 	color: rgb(11,166,116);
+	text-align: center;
+}
+
+.icon-button {
+	border: none;
+	outline: none;
+	background: transparent;
 }
 
 

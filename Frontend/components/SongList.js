@@ -38,7 +38,7 @@ var SongList = React.createClass({
 							view={this.props.view} />
 					})
 				  : <div className="error">
-                        <a>No Results ... </a>
+                        <p className="error-warning">No Results ... </p>
                     </div>
 
 				}
