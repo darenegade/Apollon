@@ -2,6 +2,10 @@
 body {
 	background-color: transparent;
 }
+header {
+	background-color: #FFFFFF;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+}
 
 .container {
 	max-width: 980px;
@@ -20,7 +24,9 @@ body {
 	width: 100%;
 	height: 100vh;
 
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
 	z-index: 100; /* Just to keep it at the very top */
 }
 
@@ -28,9 +34,6 @@ h1 {
 	margin-bottom: 20px;
 }
 
-#geocoding_form {
-	margin: 40px auto 60px;
-}
 
 #address {
 	border-radius: 3px;
@@ -223,6 +226,27 @@ a.list-group-item {
 .logo-img {
 	height: 45px;
 	width: 60%;
-	padding-top: 10px
+	padding-top: 10px;
+	padding-left: 60px;
 }
+
+.height-full {
+	height: 100%;
+}
+
+#scrollcontainer {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+}
+
+.apollon-button, .apollon-button:focus, .apollon-button:active {
+	background-color: rgb(11,166,116);
+	color: #FFFFFF;
+	-webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+	outline: none;
+}
+
+
+
 

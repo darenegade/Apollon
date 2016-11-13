@@ -22,12 +22,13 @@ var SongList = React.createClass({
 	render(){
 		const ScrollStyle = {
 			overflowY: 'scroll',
+            webkitOverflowScrolling: 'touch',
             width: '100%'
 		};
 
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-				<div id="scrollcontainer" style={ScrollStyle}>
+				<div id="scrollcontainer">
 				{ this.props.songs.length ?
 					this.props.songs.map(songObj =>
 						<SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />

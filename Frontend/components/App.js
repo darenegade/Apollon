@@ -5,6 +5,7 @@ var NavigationMenu = require('./NavigationMenu');
 var Header = require('./Header');
 var CurrentSong = require('./CurrentSong');
 var SongList = require('./Songlist');
+var FullScreenCurrent = require('./CurrentSongFullScreen');
 
 var App = React.createClass({
 
@@ -111,7 +112,7 @@ var App = React.createClass({
                                     <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
                                 </div>;
 							case "current":
-								return <CurrentSong song={this.state.currentSong} />;
+								return <FullScreenCurrent song={this.state.currentSong} />;
 							case "browse":
 					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":

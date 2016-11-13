@@ -12,7 +12,12 @@ var HeaderIcon = React.createClass({
 
     handleToggle: function(evt){
         evt.preventDefault();
-        slideout.toggle();
+        if(slideout.isOpen()) {
+            slideout.close();
+        } else {
+            slideout.open();
+        }
+
     },
 
     render(){
