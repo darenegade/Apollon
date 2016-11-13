@@ -30,10 +30,11 @@ var SongList = React.createClass({
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
 				<div id="scrollcontainer" style={ScrollStyle}>
-					{ this.state.songs.map(songObj => <SongListEntry song={songObj}/>) }
+				{ this.state.songs.map(songObj =>
+					<SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />
+				) }
 				</div>
 			</div>
-
 		)
 	}
 
