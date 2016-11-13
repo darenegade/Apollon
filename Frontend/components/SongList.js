@@ -38,9 +38,12 @@ var SongList = React.createClass({
 							handle={this.props.handle}
 							view={this.props.view} />
 					})
-				  : <div className="error">
-                          <span className="error-warning">No Results&hellip;</span>
+				  :
+                    <div className="error">
+                        <p className="error-warning"> { this.props.view == 'wish' ? "DJ shuffle is on the turn tables ... " : "No results could be found ..."} </p>
                     </div>
+
+
 
 				}
 				</div>

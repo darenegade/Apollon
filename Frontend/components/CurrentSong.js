@@ -11,6 +11,12 @@ var CurrentSong = React.createClass({
     ImageStyle: {
         height: '86px',
         width: '86px',
+        align: 'left'
+    },
+
+    ImageStyleEQ: {
+        height: '86px',
+        width: '93px',
         align: 'right'
     },
 
@@ -26,8 +32,8 @@ var CurrentSong = React.createClass({
                         <div className="artist-current">{this.props.song.artistName}</div>
                         <div className="song-current">{this.props.song.name}</div>
                     </div>
-                    <div className="col-xs-3 col-md-3 no-padding">
-                        <img src="/img/equalizer.gif" style={this.ImageStyle} ></img>
+                    <div className="col-xs-4 col-md-4 no-padding">
+                        <img src="/img/equalizer.gif" style={this.ImageStyleEQ} ></img>
                     </div>
                 </div>
             </div>
