@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * Organization: HM FK07.
@@ -38,7 +38,7 @@ public class PlaylistQueue extends Thread {
   private Map<String,TrackVote> tracks = new HashMap<>();
 
   private Player player;
-  private ThreadLocalRandom random = ThreadLocalRandom.current();
+  private Random random = new Random(System.currentTimeMillis());
 
   @PostConstruct
   public void init(){
