@@ -305,5 +305,17 @@ a.list-group-item {
 	font-size: 1.2em;
 }
 
+/* make the slideout work only on mobile devices */
+@media screen and (min-width: 780px) {
+  #panel.slideout-panel {
+    margin-left: 256px;
+  }
 
+  .slideout-menu {
+    display: block;
+  }
 
+  .apollon-button {
+    display: none;
+  }
+}
