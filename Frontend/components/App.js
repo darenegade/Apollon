@@ -8,16 +8,20 @@ var Playlist = require('./Songlist');
 
 var App = React.createClass({
 
+    testaddress:"http://131.159.211.242:8080/api",
+
 	getInitialState(){
 		return {
             currentView: "whishlist",
             playlist: [],
+            wishlist:[],
         }
 	},
 
     componentDidMount() {
         console.log("loading playlist");
         this.loadPlaylist();
+        this.loadWishlist();
 
     },
 
@@ -28,11 +32,26 @@ var App = React.createClass({
 	},
 
     loadPlaylist() {
-        this.request("/playlist").then(result => {
+        this.request(this.testaddress+"/playlist").then(result => {
             this.setState({
                 playlist: result
             });
             console.log("fetched playlist");
+        }, err => {
+            console.error(err);
+            this.setState({
+                credentials: null,
+                loginmessage: err.message
+            });
+        });
+    },
+
+    loadWishlist() {
+        this.request(this.testaddress+"/playlist/wishlist").then(result => {
+            this.setState({
+                playlist: result
+            });
+            console.log("fetched wishlist");
         }, err => {
             console.error(err);
             this.setState({
@@ -85,8 +104,9 @@ var App = React.createClass({
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} />
+							    return <Playlist songs={this.state.playlist} view={this.state.currentView} />;
 							case "wishlist":
+                                return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
 							default:
 								return <Playlist songs={[]} />;
 						}
