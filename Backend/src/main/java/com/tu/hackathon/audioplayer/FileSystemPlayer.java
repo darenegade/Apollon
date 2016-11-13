@@ -41,6 +41,8 @@ public class FileSystemPlayer extends Player{
       notifyObservers();
 
       Thread.sleep(clip.getMicrosecondLength()/1000);
+      clip.stop();
+      clip.close();
 
     }catch (Exception e){
       e.printStackTrace();
