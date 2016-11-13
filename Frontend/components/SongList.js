@@ -23,8 +23,8 @@ var SongList = React.createClass({
 	render(){
 		const ScrollStyle = {
 			overflowY: 'scroll',
+            width: '100%'
 
-			width:'100%'
 		};
 
 		return (

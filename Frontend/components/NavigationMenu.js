@@ -11,17 +11,17 @@ var NavigationMenu = React.createClass({
 
     render(){
         return (
-            <div className="list-group col-xs-12 col-md-6 col-md-offset-3">
-                <a className="list-group-item" onClick={this.handleClick} id="search">
+            <div className="list-group menu-list col-xs-12 col-md-6 col-md-offset-3">
+                <a className="list-group-item menu-list-item" onClick={this.handleClick} id="search">
                     Search
                 </a>
-                <a className="list-group-item" onClick={this.handleClick} id="browse">
+                <a className="list-group-item menu-list-item" onClick={this.handleClick} id="browse">
                     Browse
                 </a>
-                <a className="list-group-item" onClick={this.handleClick} id="wishlist">
+                <a className="list-group-item menu-list-item" onClick={this.handleClick} id="wishlist">
                     Wishlist
                 </a>
-                <a className="list-group-item" onClick={this.handleClick} id="current">
+                <a className="list-group-item menu-list-item" onClick={this.handleClick} id="current">
                     Current
                 </a>
             </div>
