@@ -46,7 +46,7 @@ public class PlaylistController implements Observer {
   @Autowired
   TrackRepo trackRepo;
 
-  private final List<SseEmitter> emitters = new ArrayList<>();
+  private final Map<SseEmitter, String> emitters = new HashMap<>();
   private final List<SseEmitter> lostEmitters = new ArrayList<>();
 
   @PostConstruct
@@ -124,7 +124,31 @@ public class PlaylistController implements Observer {
     if (track != null) {
       player.queueOnPlaylist(ipAddress, track, upVote);
 
-      sendToEmitters(WISHLIST, getWishList(request).getWishlist().get(trackId));
+      if (lostEmitters.size() > 500) {
+        synchronized (this) {
+          lostEmitters.forEach(emitters::remove);
+        }
+      }
+
+      TrackVote vote = player.getTracks().get(trackId);
+
+      emitters.keySet().stream()
+          .filter(emitter -> !lostEmitters.contains(emitter))
+          .forEach((SseEmitter emitter) -> {
+
+            Wishlist.VoteType voteType = Wishlist.VoteType.NOT;
+
+            if (vote.getUpVotes().contains(emitters.get(emitter))) {
+              voteType = Wishlist.VoteType.UP;
+            } else if (vote.getDownVotes().contains(emitters.get(emitter))) {
+              voteType = Wishlist.VoteType.DOWN;
+            }
+
+            Wishlist.WishlistEntry entry = new Wishlist.WishlistEntry(
+                track, vote.getUpVotes().size(), vote.getDownVotes().size(), voteType);
+
+            sendToEmitterAsync(emitter, WISHLIST, entry);
+          });
     }
   }
 
@@ -136,25 +160,27 @@ public class PlaylistController implements Observer {
       }
     }
 
-    emitters.stream()
+    emitters.keySet().stream()
         .filter(emitter -> !lostEmitters.contains(emitter))
-        .forEach((SseEmitter emitter) -> {
+        .forEach((SseEmitter emitter) ->
+            sendToEmitterAsync(emitter, key, o)
+        );
 
-          new Thread(() -> {
-            try {
-              emitter.send(SseEmitter.event()
-                  .id(key)
-                  .data(o, MediaType.APPLICATION_JSON));
-            } catch (IOException e) {
-              emitter.complete();
-              synchronized (lostEmitters) {
-                lostEmitters.add(emitter);
-              }
-            }
-          }).start();
+  }
 
-        });
-
+  private void sendToEmitterAsync(SseEmitter emitter, String key, Object o) {
+    new Thread(() -> {
+      try {
+        emitter.send(SseEmitter.event()
+            .id(key)
+            .data(o, MediaType.APPLICATION_JSON));
+      } catch (IOException e) {
+        emitter.complete();
+        synchronized (lostEmitters) {
+          lostEmitters.add(emitter);
+        }
+      }
+    }).start();
   }
 
   private String getClientIP(HttpServletRequest request) {
@@ -167,11 +193,11 @@ public class PlaylistController implements Observer {
 
 
   @RequestMapping(path = "/stream", method = RequestMethod.GET)
-  public synchronized SseEmitter stream() throws IOException {
+  public synchronized SseEmitter stream(HttpServletRequest request) throws IOException {
 
     SseEmitter emitter = new SseEmitter();
 
-    emitters.add(emitter);
+    emitters.put(emitter, getClientIP(request));
     emitter.onCompletion(() -> emitters.remove(emitter));
 
     emitter.send(SseEmitter.event()
