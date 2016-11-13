@@ -15,6 +15,7 @@ var App = React.createClass({
             currentView: "whishlist",
             playlist: [],
             wishlist:[],
+            searchresult:[]
         }
 	},
 
@@ -49,7 +50,23 @@ var App = React.createClass({
     loadWishlist() {
         this.request(this.testaddress+"/playlist/wishlist").then(result => {
             this.setState({
-                playlist: result
+                wishlist: result
+            });
+            console.log("fetched wishlist");
+        }, err => {
+            console.error(err);
+            this.setState({
+                credentials: null,
+                loginmessage: err.message
+            });
+        });
+    },
+
+    loadSearchResults(searchtext) {
+        console.log("loading searchresults for: "+searchtext);
+        this.request(this.testaddress+"/playlist/search?name="+searchtext).then(result => {
+            this.setState({
+                searchresult: result
             });
             console.log("fetched wishlist");
         }, err => {
@@ -100,13 +117,19 @@ var App = React.createClass({
                     {(()=>{
 						switch(this.state.currentView) {
 							case "search":
-								return <Search onSearch={this.searchForAddress} />;
+								return <div>
+                                    <Search onSearch={this.loadSearchResults} />
+                                    <Playlist songs={this.state.searchresult} view={"browse"} key="playl1" />;
+                                </div>;
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} view={this.state.currentView} />;
+							    return <Playlist songs={this.state.playlist} view={this.state.currentView}  key="playl1"/>;
 							case "wishlist":
-                                return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
+                                return <div>
+                                    <CurrentSong />
+                                    <Playlist songs={this.state.wishlist} view={this.state.currentView}  key="playl1"/>
+                                </div>;
 							default:
 								return <Playlist songs={[]} />;
 						}
