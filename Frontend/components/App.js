@@ -4,21 +4,19 @@ var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
 var HeaderIcon = require('./HeaderIcon');
 var CurrentSong = require('./CurrentSong');
-var Playlist = require('./Songlist');
+var SongList = require('./Songlist');
 
 var App = React.createClass({
 
 	getInitialState(){
 		return {
-            currentView: "whishlist",
+            currentView: "wishlist",
             playlist: [],
         }
 	},
 
     componentDidMount() {
-        console.log("loading playlist");
         this.loadPlaylist();
-
     },
 
 	setView(view) {
@@ -28,11 +26,12 @@ var App = React.createClass({
 	},
 
     loadPlaylist() {
+        //console.log("loading playlist");
         this.request("/playlist").then(result => {
             this.setState({
                 playlist: result
             });
-            console.log("fetched playlist");
+            //console.log("fetched playlist");
         }, err => {
             console.error(err);
             this.setState({
@@ -79,16 +78,19 @@ var App = React.createClass({
                         </div>
                     </header>
                     {(()=>{
+						// console.log("rendering", this.state)
 						switch(this.state.currentView) {
 							case "search":
-								return <Search onSearch={this.searchForAddress} />;
+								return <Search onSearch={this.loadPlaylist} />;
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} />
+							    return <SongList songs={this.state.playlist} />
 							case "wishlist":
+								return <SongList songs={[]} />;
 							default:
-								return <Playlist songs={[]} />;
+								console.error("no view for "+this.state.currentView);
+								return null;
 						}
 					})()}
                 </main>

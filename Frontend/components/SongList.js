@@ -3,15 +3,6 @@ var SongListEntry = require('./SongListEntry');
 
 var SongList = React.createClass({
 
-	/**
-	 * React standard method to define components initial state.
-	 */
-	getInitialState: function () {
-		return {
-			songs: this.props.songs
-		};
-	},
-
 	componentDidMount() {
 		this.container = document.getElementById("scrollcontainer");
 		window.addEventListener("resize", this.adjustHeight);
@@ -33,7 +24,7 @@ var SongList = React.createClass({
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
 				<div id="scrollcontainer" style={ScrollStyle}>
-				{ this.state.songs.map(songObj =>
+				{ this.props.songs.map(songObj =>
 					<SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />
 				) }
 				</div>
