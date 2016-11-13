@@ -116,7 +116,7 @@ var App = React.createClass({
 							case "browse":
 					    return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
 							case "wishlist":
-                                return <div>
+                                return <div className="container">
                                     <CurrentSong song={this.state.currentSong} />
 									<SongList songs={this.state.wishlist} view="wish" handle={this.vote} />
 								</div>;
