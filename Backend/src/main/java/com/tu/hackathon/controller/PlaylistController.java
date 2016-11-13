@@ -47,6 +47,7 @@ public class PlaylistController implements Observer {
   TrackRepo trackRepo;
 
   private final List<SseEmitter> emitters = new ArrayList<>();
+  private final List<SseEmitter> lostEmitters = new ArrayList<>();
 
   @PostConstruct
   public void init() {
@@ -129,22 +130,31 @@ public class PlaylistController implements Observer {
 
   public void sendToEmitters(String key, Object o) {
 
-    List<SseEmitter> lostEmitters = new ArrayList<>();
-
-    emitters.forEach((SseEmitter emitter) -> {
-      try {
-        emitter.send(SseEmitter.event()
-            .id(key)
-            .data(o, MediaType.APPLICATION_JSON));
-      } catch (IOException e) {
-        emitter.complete();
-        lostEmitters.add(emitter);
+    if (lostEmitters.size() > 500) {
+      synchronized (this) {
+        lostEmitters.forEach(emitters::remove);
       }
-    });
-
-    synchronized (this) {
-      lostEmitters.forEach(emitters::remove);
     }
+
+    emitters.stream()
+        .filter(emitter -> !lostEmitters.contains(emitter))
+        .forEach((SseEmitter emitter) -> {
+
+          new Thread(() -> {
+            try {
+              emitter.send(SseEmitter.event()
+                  .id(key)
+                  .data(o, MediaType.APPLICATION_JSON));
+            } catch (IOException e) {
+              emitter.complete();
+              synchronized (lostEmitters) {
+                lostEmitters.add(emitter);
+              }
+            }
+          }).start();
+
+        });
+
   }
 
   private String getClientIP(HttpServletRequest request) {
