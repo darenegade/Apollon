@@ -2,7 +2,7 @@ var React = require('react');
 
 var Search = require('./Search');
 var NavigationMenu = require('./NavigationMenu');
-var HeaderIcon = require('./HeaderIcon');
+var Header = require('./Header');
 var CurrentSong = require('./CurrentSong');
 var Playlist = require('./Songlist');
 
@@ -75,28 +75,14 @@ var App = React.createClass({
     },
 
 	render(){
-        const headerStyle = {
-            //position: 'fixed',
-            width: '100%',
 
-        };
-		const headerItemStyle = {
-			height: '100%',
-			marginTop: '5px',
-			fontSize: '40px'
-		};
 		return (
 		    <div>
                 <nav id="menu">
 					<NavigationMenu handleSelection={this.setView} />
 				</nav>
                 <main id="panel">
-                    <header style={headerStyle}>
-                        <div className="col-xs-12 col-md-12 header-container">
-                            <HeaderIcon/>
-                            <div className="col-xs-8 col-md-8"><h1 className="heading-apollon" style={headerItemStyle}>Apollon</h1></div>
-                        </div>
-                    </header>
+                    <Header/>
                     {(()=>{
 						switch(this.state.currentView) {
 							case "search":
@@ -104,7 +90,8 @@ var App = React.createClass({
 							case "current":
 								return <CurrentSong />;
 							case "browse":
-							    return <Playlist songs={this.state.playlist} view={this.state.currentView} />;
+							    return
+                                <Playlist songs={this.state.playlist} view={this.state.currentView} />;
 							case "wishlist":
                                 return <Playlist songs={this.state.wishlist} view={this.state.currentView} />;
 							default:

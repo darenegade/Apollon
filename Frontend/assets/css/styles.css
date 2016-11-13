@@ -1,6 +1,6 @@
 
 body {
-	background-color: rgb(11,166,116);
+	background-color: transparent;
 }
 
 .container {
@@ -108,9 +108,14 @@ h1 {
 }
 
 .menu-list {
-	margin-top: 30px;
+	padding: 0;
+	color: #2c3e50;
 }
 
+.menu-list:hover {
+	background-color: transparent;
+	color: #2c3e50;
+}
 
 .list-group-item {
 	position: relative;
@@ -121,8 +126,9 @@ a.list-group-item {
 	cursor: pointer;
 }
 
-a.list-group-item:hover {
-	background-color: #F7FBFF;
+a.list-group-item:hover, a.list-group-item:focus {
+	background-color: transparent;
+	color: #2c3e50;
 }
 
 a.active-location {
@@ -139,14 +145,29 @@ a.list-group-item span.createdAt {
 	z-index: -1;
 }
 
+.menu-list-heading {
+	background-color: transparent;
+	border: none;
+	font-size: 3em;
+	font-family: monospace;
+	height: 160px;
+	background-color: rgb(11,166,116);
+}
+
 .menu-list-item {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	border-color: transparent;
 	height: 50px;
 	width: 100%;
-	font-size: 1.3em;
-	background-color: rgba(169, 169, 169, 0.46);
+	font-size: 1.5em;
+	font-style: initial;
+	background-color: rgba(169,169,169,0);
+	border-bottom: lightgray;
+}
+
+a.list-group-item {
+	color: #FFFFFF;
 }
 
 .heading-apollon{
@@ -195,8 +216,13 @@ a.list-group-item span.createdAt {
     margin: auto;
 }
 
-
 .no-padding {
 	padding: 0;
+}
+
+.logo-img {
+	height: 45px;
+	width: 60%;
+	padding-top: 10px
 }
 

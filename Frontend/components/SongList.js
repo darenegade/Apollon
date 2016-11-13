@@ -20,6 +20,13 @@ var SongList = React.createClass({
 		elem.style.height= availableheight+"px";
 	},
 
+    checkIfSongExists: function (songs) {
+      if (songs != null) {
+          return songs.map(songObj =>
+              <SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />)
+      }
+    },
+
 	render(){
 		const ScrollStyle = {
 			overflowY: 'scroll',
@@ -30,9 +37,9 @@ var SongList = React.createClass({
 		return (
 			<div className="list-group col-xs-12 col-md-6 col-md-offset-3">
 				<div id="scrollcontainer" style={ScrollStyle}>
-				{ this.state.songs.map(songObj =>
-					<SongListEntry song={songObj} key={songObj.id} handle={this.props.handle} view={this.props.view} />
-				) }
+				{
+                    this.checkIfSongExists(this.state.songs)
+				}
 				</div>
 			</div>
 		)

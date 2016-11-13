@@ -3,12 +3,12 @@
  */
 var React = require('react');
 
-const headerIconStyle = {
-    height: '100%',
-    marginTop: '10px'
-};
 
 var HeaderIcon = React.createClass({
+    headerIconStyle : {
+        height: '100%',
+        marginTop: '10px'
+    },
 
     handleToggle: function(evt){
         evt.preventDefault();
@@ -17,8 +17,8 @@ var HeaderIcon = React.createClass({
 
     render(){
         return (
-            <div className="col-xs-3 col-md-3" style={headerIconStyle} onClick={this.handleToggle}>
-                <i className="fa fa-music fa-2x" aria-hidden="true"></i>
+            <div className="col-xs-3 col-md-3" style={this.headerIconStyle} onClick={this.handleToggle}>
+                <i className="fa fa-bars fa-2x" aria-hidden="true"></i>
             </div>
         )
     }
