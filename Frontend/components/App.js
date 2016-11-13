@@ -19,8 +19,9 @@ var App = React.createClass({
             searchresult:[],
             searchresultJuke:[],
 			wishes: {},
-			currentSong: null
-
+			currentSong: null,
+            jukePlaceholer: 'Search for Songs on JUKE! ...',
+            playlistSearch: 'Search for Songs ...'
         }
 	},
 
@@ -165,18 +166,16 @@ var App = React.createClass({
                     {(()=>{
 						console.log("rendering", this.state)
 						switch(this.state.currentView) {
-
-
-							case "current":
+                            case "current":
 								return <FullScreenCurrent song={this.state.currentSong} />;
 							case "browse":
                                 return <div>
-                                    <Search onSearch={this.loadSearchResults} />
+                                    <Search onSearch={this.loadSearchResults} placeholder={this.state.playlistSearch} />
                                     <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
                                 </div>;
                             case "buy":
                                 return <div>
-                                    <Search onSearch={this.loadJukeResults} />
+                                    <Search onSearch={this.loadJukeResults} placeholder={this.state.jukePlaceholer} />
                                     <SongList songs={this.state.searchresultJuke} view="buy" handle={this.vote} />;
                                 </div>;
 

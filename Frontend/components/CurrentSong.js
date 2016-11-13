@@ -37,7 +37,9 @@ var CurrentSong = React.createClass({
                     </div>
                 </div>
             </div>
-			: <div className="panel-body">Loading&hellip;</div> }
+			: <div className="panel-body">
+                <p className="loading">Loading&hellip;</p>
+            </div> }
         </div>
     }
 
