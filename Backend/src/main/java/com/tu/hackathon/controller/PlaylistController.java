@@ -128,17 +128,21 @@ public class PlaylistController implements Observer {
   }
 
   public void sendToEmitters(String key, Object o) {
+
+    List<SseEmitter> lostEmitters = new ArrayList<>();
+
     emitters.forEach((SseEmitter emitter) -> {
       try {
         emitter.send(SseEmitter.event()
             .id(key)
-            .data(o, MediaType.APPLICATION_JSON)
-            .build());
+            .data(o, MediaType.APPLICATION_JSON));
       } catch (IOException e) {
         emitter.complete();
-        emitters.remove(emitter);
+        lostEmitters.add(emitter);
       }
     });
+
+    lostEmitters.forEach(emitters::remove);
   }
 
   private String getClientIP(HttpServletRequest request) {
@@ -160,8 +164,7 @@ public class PlaylistController implements Observer {
 
     emitter.send(SseEmitter.event()
         .id(CURRENT_TRACK)
-        .data(player.currentTrack(), MediaType.APPLICATION_JSON)
-        .build());
+        .data(player.currentTrack(), MediaType.APPLICATION_JSON));
 
     return emitter;
   }
