@@ -27,11 +27,13 @@ public class TrackVote implements Comparable<TrackVote>{
 
   public TrackVote addUp(String id){
     upVotes.add(id);
+    downVotes.remove(id);
     return this;
   }
 
   public TrackVote addDown(String id){
     downVotes.add(id);
+    upVotes.remove(id);
     return this;
   }
 
