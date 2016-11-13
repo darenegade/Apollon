@@ -27,7 +27,7 @@ var CurrentSong = React.createClass({
                     </div>
                 </div>
                 <div className="col-xs-4 col-md-4">
-                    <img src="/assets/"></img>
+                    <img src="/img/equalizer.gif" style={this.ImageStyle} ></img>
 
                 </div>
             </div>

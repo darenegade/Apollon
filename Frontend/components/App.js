@@ -127,7 +127,7 @@ var App = React.createClass({
 							    return <Playlist songs={this.state.playlist} view={this.state.currentView}  key="playl1"/>;
 							case "wishlist":
                                 return <div>
-                                    <CurrentSong />
+                                    <CurrentSong song={this.state.wishlist[0]}/>
                                     <Playlist songs={this.state.wishlist} view={this.state.currentView}  key="playl1"/>
                                 </div>;
 							default:

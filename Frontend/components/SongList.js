@@ -13,9 +13,10 @@ var SongList = React.createClass({
 	},
 
 	componentDidMount() {
-		console.log(window.innerHeight);
-		availableheight=window.innerHeight-100;
 		var elem=document.getElementById("scrollcontainer");
+		console.log(window.innerHeight);
+		availableheight=window.innerHeight-elem.getBoundingClientRect().top;
+
 		console.log("set height to "+availableheight);
 		elem.style.height= availableheight+"px";
 	},
