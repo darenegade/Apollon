@@ -6,12 +6,17 @@ import com.tu.hackathon.util.PlaylistQueue;
 import com.tu.hackathon.util.TrackVote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +37,8 @@ public class PlaylistController {
 
   @Autowired
   TrackRepo trackRepo;
+
+  private final List<SseEmitter> emitters = new ArrayList<>();
 
 
   @RequestMapping(method = RequestMethod.GET)
@@ -69,8 +76,30 @@ public class PlaylistController {
 
     Track track = trackRepo.findOne(trackId);
 
-    if(track != null)
+    if(track != null) {
       player.queueOnPlaylist(ipAddress, track, upVote);
+
+      emitters.forEach((SseEmitter emitter) -> {
+        try {
+          emitter.send(getWishList().get(trackId), MediaType.APPLICATION_JSON);
+        } catch (IOException e) {
+          emitter.complete();
+          emitters.remove(emitter);
+        }
+      });
+    }
+  }
+
+
+  @RequestMapping(path = "/stream", method = RequestMethod.GET)
+  public SseEmitter stream() throws IOException {
+
+    SseEmitter emitter = new SseEmitter();
+
+    emitters.add(emitter);
+    emitter.onCompletion(() -> emitters.remove(emitter));
+
+    return emitter;
   }
 
 }
