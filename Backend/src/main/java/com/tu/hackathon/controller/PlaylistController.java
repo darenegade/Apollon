@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,9 @@ import java.util.Observer;
 @RestController
 @RequestMapping("/playlist")
 public class PlaylistController implements Observer{
+
+  public static String CURRENT_TRACK = "CurrentTrack";
+  public static String WISHLIST = "Wishlist";
 
   @Autowired
   PlaylistQueue player;
@@ -114,14 +116,17 @@ public class PlaylistController implements Observer{
     if(track != null) {
       player.queueOnPlaylist(ipAddress, track, upVote);
 
-      sendToEmitters("wishlist",getWishList(request).getWishlist().get(trackId));
+      sendToEmitters(WISHLIST,getWishList(request).getWishlist().get(trackId));
     }
   }
 
   public void sendToEmitters(String key, Object o){
     emitters.forEach((SseEmitter emitter) -> {
       try {
-        emitter.send(Collections.singletonMap(key,o), MediaType.APPLICATION_JSON);
+        emitter.send(SseEmitter.event()
+            .id(key)
+            .data(o, MediaType.APPLICATION_JSON)
+            .build());
       } catch (IOException e) {
         emitter.complete();
         emitters.remove(emitter);
@@ -146,7 +151,10 @@ public class PlaylistController implements Observer{
     emitters.add(emitter);
     emitter.onCompletion(() -> emitters.remove(emitter));
 
-    emitter.send(Collections.singletonMap("currentTrack",player.currentTrack()), MediaType.APPLICATION_JSON);
+    emitter.send(SseEmitter.event()
+        .id(CURRENT_TRACK)
+        .data(player.currentTrack(), MediaType.APPLICATION_JSON)
+        .build());
 
     return emitter;
   }
@@ -154,6 +162,6 @@ public class PlaylistController implements Observer{
   @Override
   public void update(Observable o, Object arg) {
 
-    sendToEmitters("currentTrack", player.currentTrack());
+    sendToEmitters(CURRENT_TRACK, player.currentTrack());
   }
 }
