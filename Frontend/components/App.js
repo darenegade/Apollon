@@ -14,9 +14,10 @@ var App = React.createClass({
 		return {
             currentView: "search",
             playlist: [],
-            wishlist:[],
-            searchresult:[],
-			currentSong:null
+            searchresult: [],
+            wishlist: [],
+			wishes: {},
+			currentSong: null
         }
 	},
 
@@ -45,17 +46,16 @@ var App = React.createClass({
 
     loadWishlist() {
         this.request(this.testaddress+"/playlist/wishlist").then(result => {
+			for (var id in result.wishlist)
+				result.wishlist[id].score = result.wishlist[id].up - result.wishlist[id].down;
             this.setState({
-                wishlist: Object.keys(result.wishlist).map(k => result.wishlist[k]),	
+                wishlist: this.getWishlist(result.wishlist),
+				wishes: result.wishlist,
 				currentSong: result.currentSong
             });
             console.log("fetched wishlist");
         }, err => {
             console.error(err);
-            this.setState({
-                credentials: null,
-                loginmessage: err.message
-            });
         });
     },
 
@@ -85,12 +85,28 @@ var App = React.createClass({
     },
 
 	vote(songId, vote) {
+		console.log(typeof songId);
 		fetch(this.testaddress+"/playlist/vote"+{"-1":"down", "1":"up"}[vote], {
 			method: "POST",
-			body: JSON.stringify(songId)
+			body: songId // JSON.stringify(songId)
 		})
 		.then(response => response.text())
-		.then(console.log)
+		.then(console.log.bind(console, "voted"), console.error)
+	},
+	
+	getWishlist(wishes) {
+		return Object.keys(wishes).sort((a, b) => {
+			wishes[a].score - wishes[b].score;
+		})
+	},
+	
+	updateWish(w) {
+		var wishes = this.state.wishes;
+		wishes[w.track.id] = w;
+		w.score = w.up - w.down;
+		this.setState({
+			wishlist: this.getWishlist(wishes)
+		})
 	},
 
 	render(){
@@ -131,7 +147,7 @@ var App = React.createClass({
 							case "wishlist":
                                 return <div>
                                     <CurrentSong song={this.state.currentSong} />
-									<SongList songs={this.state.wishlist} view="wish" handle={this.vote} />
+									<SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
 								</div>;
 							default:
 								console.error("no view for "+this.state.currentView);
