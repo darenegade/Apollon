@@ -5,10 +5,16 @@ const ImageStyle = {
 	height: '123px',
 	width: '110px',
 };
+
+const CountStyle = {
+	marginLeft: '50%',
+	fontSize: '1.1em'
+};
+
 function IconVoteStyle(a, b) {
 	return {
 		margin: '5px',
-		fontSize: '3em',
+		fontSize: '2.5em',
 		color: arguments.length && a == b ? 'red' : ''
 	};
 }
@@ -40,7 +46,7 @@ var SongListEntry = React.createClass({
 					{
 						this.props.view == "wish" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-lg-7">
-								<span>{this.props.score}</span>
+								<span style={CountStyle}>{this.props.score}</span>
 								<button className="icon-button">
 									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
@@ -51,7 +57,7 @@ var SongListEntry = React.createClass({
 							</div>
 						: this.props.view == "wish-admin" ?
 							<div className="col-xs-4 col-s-4 col-md-4 col-xs-4 col-md-4 col-lg-7">
-								<span>{this.props.score}</span>
+								<span style={CountStyle}>{this.props.score}</span>
 								<button className="icon-button">
 									<i onClick={this.makeClickHandler(+1)} className="fa fa-heart-o fa-2x" style={IconVoteStyle(this.props.voted, "UP")} aria-hidden="true"></i>
 								</button>
