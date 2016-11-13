@@ -10,15 +10,17 @@ var FullScreenCurrent = require('./CurrentSongFullScreen');
 var App = React.createClass({
 
     testaddress:"http://131.159.211.242:8080/api",
+    addressJuke:"http://131.159.211.242:8080/juke",
 
 	getInitialState(){
 		return {
             currentView: "wishlist",
-            playlist: [],
-            searchresult: [],
-            wishlist: [],
+            wishlist:[],
+            searchresult:[],
+            searchresultJuke:[],
 			wishes: {},
 			currentSong: null
+
         }
 	},
 
@@ -52,12 +54,12 @@ var App = React.createClass({
 	},
 
     loadPlaylist() {
-        //console.log("loading playlist");
+        console.log("loading playlist initially");
         this.request(this.testaddress+"/playlist").then(result => {
             this.setState({
-                playlist: result
+                searchresult:result
             });
-            //console.log("fetched playlist");
+            console.log("fetched playlist initially");
         }, err => {
             console.error(err);
         });
@@ -79,12 +81,32 @@ var App = React.createClass({
     },
 
     loadSearchResults(searchtext) {
-        console.log("loading searchresults for: "+searchtext);
+        console.log("loading searchresults local for: "+searchtext);
         this.request(this.testaddress+"/playlist/search?name="+searchtext).then(result => {
+
             this.setState({
                 searchresult: result
             });
-            //console.log("fetched wishlist");
+            console.log("fetched searchresult from local");
+        }, err => {
+            console.error(err);
+        });
+    },
+
+    loadJukeResults(searchtext) {
+        console.log("loading searchresults from juke for: "+searchtext);
+        //http://131.159.211.242:8080/juke/track-search?criterion=beyonce&pageIndex=0
+        this.request(this.addressJuke+"/track-search?criterion="+searchtext+"&pageIndex=0").then(result => {
+            console.log(result);
+            var tracks =result.tracks;
+            tracks.forEach(function(entry) {
+                //http://artwork.cdn.247e.com/covers/68218472/128x128
+                entry["imageUrl"] = "http://artwork.cdn.247e.com/covers/"+entry.id+"/128x128";
+            });
+            this.setState({
+                searchresultJuke: tracks
+            });
+            console.log("fetched searchresult from juke");
         }, err => {
             console.error(err);
         });
@@ -143,20 +165,27 @@ var App = React.createClass({
                     {(()=>{
 						console.log("rendering", this.state)
 						switch(this.state.currentView) {
-							case "search":
-								return <div>
-                                    <Search onSearch={this.loadSearchResults} />
-                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />
-                                </div>;
+
+
 							case "current":
 								return <FullScreenCurrent song={this.state.currentSong} />;
 							case "browse":
-								return <SongList songs={this.state.playlist} view="browse" handle={this.vote} />;
+                                return <div>
+                                    <Search onSearch={this.loadSearchResults} />
+                                    <SongList songs={this.state.searchresult} view="browse" handle={this.vote} />;
+                                </div>;
+                            case "buy":
+                                return <div>
+                                    <Search onSearch={this.loadJukeResults} />
+                                    <SongList songs={this.state.searchresultJuke} view="buy" handle={this.vote} />;
+                                </div>;
+
 							case "wishlist":
                                 return <div>
                                         <CurrentSong song={this.state.currentSong} />
                                         <SongList songs={this.state.wishes} selection={this.state.wishlist} view="wish" handle={this.vote} />
                                     </div>
+
 							default:
 								console.error("no view for "+this.state.currentView);
 								return null;
