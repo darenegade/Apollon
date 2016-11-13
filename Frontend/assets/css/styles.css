@@ -2,6 +2,10 @@
 body {
 	background-color: transparent;
 }
+header {
+	background-color: #FFFFFF;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+}
 
 .container {
 	max-width: 980px;
@@ -20,7 +24,9 @@ body {
 	width: 100%;
 	height: 100vh;
 
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
 	z-index: 100; /* Just to keep it at the very top */
 }
 
@@ -28,9 +34,6 @@ h1 {
 	margin-bottom: 20px;
 }
 
-#geocoding_form {
-	margin: 40px auto 60px;
-}
 
 #address {
 	border-radius: 3px;
@@ -145,8 +148,7 @@ a.list-group-item span.createdAt {
 	z-index: -1;
 }
 
-.menu-list-heading {
-	background-color: transparent;
+.menu-list-heading, .menu-list-heading:focus, .menu-list-heading:active, .menu-list-heading:hover{
 	border: none;
 	font-size: 3em;
 	font-family: monospace;
@@ -210,7 +212,7 @@ a.list-group-item {
 }
 .artist-current {
 	font-family: monospace;
-	font-size: 2.0em;
+	font-size: 1.3em;
 	/*word-wrap: break-word;*/
 	text-overflow: ellipsis;
 
@@ -218,15 +220,17 @@ a.list-group-item {
 	white-space: nowrap;
 	overflow: hidden;
 	text-align: left;
+	padding-left: 10px;
 }
 .song-current {
-	font-size: 1.8em;
+	font-size: 1.0em;
 	/*word-wrap: break-word;*/
 	text-overflow: ellipsis;
 	/* Required for text-overflow to do anything */
 	white-space: nowrap;
 	overflow-x: hidden;
 	text-align: left;
+	padding-left: 10px;
 }
 .smalltext{
 	font-size:0.7em;
@@ -243,6 +247,48 @@ a.list-group-item {
 .logo-img {
 	height: 45px;
 	width: 60%;
-	padding-top: 10px
+	padding-top: 10px;
+	padding-left: 60px;
 }
+
+.height-full {
+	height: 100%;
+}
+
+#scrollcontainer {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+}
+
+.apollon-button, .apollon-button:focus, .apollon-button:active {
+	background-color: rgb(11,166,116);
+	color: #FFFFFF;
+	-webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+	outline: none;
+}
+
+.error {
+	height: 40px;
+	background-color: #FFFFFF;
+	-webkit-box-shadow: 0 8px 6px -6px #95a5a6;
+	-moz-box-shadow: 0 8px 6px -6px #95a5a6;
+	box-shadow: 0 8px 6px -6px #95a5a6;
+}
+
+.error-warning {
+	font-family: monospace;
+	font-size: 1.3em;
+	color: rgb(11,166,116);
+	text-align: center;
+}
+
+.icon-button {
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+
+
 
