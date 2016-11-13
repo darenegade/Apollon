@@ -4,17 +4,15 @@ var SongListEntry = require('./SongListEntry');
 var SongList = React.createClass({
 
 	componentDidMount() {
-		
 		window.addEventListener("resize", this.adjustHeight);
 		this.adjustHeight();
 	},
 
 	adjustHeight() {
 		var elem = document.getElementById("scrollcontainer");
-		var win = window.innerHeight,
-		    top = elem.getBoundingClientRect().top,
-		    available = win-top;
-
+		var win = window.innerHeight;
+		var top = elem.getBoundingClientRect().top;
+        var available = win-top;
 		//console.log("set height to "+win+"-"+top+": "+available);
 		elem.style.height = available+"px";
 	},
@@ -40,11 +38,13 @@ var SongList = React.createClass({
 							handle={this.props.handle}
 							view={this.props.view} />
 					})
-				  : <span className="error">No results</span>
+				  : <div className="error">
+                        <span>No Results&hellip;</span>
+                    </div>
 
 				}
 				</div>
-			</div>
+            </div>
 		)
 	}
 

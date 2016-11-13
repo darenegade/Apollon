@@ -269,6 +269,20 @@ a.list-group-item {
 	outline: none;
 }
 
+.error {
+	height: 40px;
+	background-color: #FFFFFF;
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	-moz-box-shadow: 0 8px 6px -6px black;
+	box-shadow: 0 8px 6px -6px black;
+}
+
+.a.error {
+	font-family: monospace;
+	font-size: 1.3em;
+	color: rgb(11,166,116);
+}
+
 
 
 
